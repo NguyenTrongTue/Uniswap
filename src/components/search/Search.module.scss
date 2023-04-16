@@ -1,0 +1,26 @@
+@use "../../scss/index.scss" as *;
+
+.search {
+  @include flex(center, flex-start);
+  width: 360px;
+  padding: 12px 16px;
+  background-color: var(--black);
+  border-radius: var(--s12);
+  box-shadow: 0 0 1px var(--primary-text-color);
+  .icon {
+    color: var(--gray);
+  }
+  input {
+    font-size: var(--s18);
+    background-color: var(--black);
+    &::placeholder {
+      color: var(--gray);
+    }
+    color: var(--primary-text-color);
+    margin-left: 12px;
+    font-weight: 500;
+  }
+  &:focus-within {
+    box-shadow: 0 0 1.5px var(--blue);
+  }
+}

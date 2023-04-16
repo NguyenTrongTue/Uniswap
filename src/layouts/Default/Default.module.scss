@@ -1,0 +1,10 @@
+@use "../../scss/index.scss" as *;
+
+.wrapper {
+  @include flex(center, center);
+  flex-direction: column;
+}
+.container {
+  background-color: var(--primary-bg-color);
+  width: 100%;
+}

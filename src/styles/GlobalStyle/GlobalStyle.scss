@@ -1,0 +1,179 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800;900&family=Poppins:wght@100;200;300;400;500;600;700&family=Questrial&display=swap");
+:root {
+  --genie-colors-accentFailure: var(--rgw6ez12);
+  --genie-colors-accentFailureSoft: rgba(250, 43, 57, 0.12);
+  --genie-colors-accentAction: var(--rgw6ez10);
+  --genie-colors-accentActionSoft: var(--rgw6ez3);
+  --genie-colors-accentSuccess: var(--rgw6ez17);
+  --genie-colors-backgroundFloating: #00000000;
+  --genie-colors-backgroundInteractive: var(--rgw6ez1b);
+  --genie-colors-backgroundModule: var(--rgw6ez1b);
+  --genie-colors-backgroundOutline: var(--rgw6ez1c);
+  --genie-colors-modalBackdrop: rgba(0, 0, 0, 0.3);
+  --genie-colors-searchBackground: rgba(255, 255, 255, 0.4);
+  --genie-colors-searchOutline: rgba(0, 0, 0, 0.1);
+  --genie-colors-stateOverlayHover: rgba(153, 161, 189, 0.08);
+  --genie-colors-green: var(--rgw6ez18);
+  --genie-colors-gold: var(--rgw6ez15);
+  --genie-colors-violet: var(--rgw6ez1a);
+  --genie-colors-textPrimary: var(--rgw6ez1s);
+  --genie-colors-textSecondary: var(--rgw6ez1k);
+  --genie-colors-textTertiary: var(--rgw6ez1g);
+  --genie-colors-dropShadow: 0px 4px 16px rgba(251, 17, 142, 0.4);
+  --genie-shadows-menu: 0px 10px 30px rgba(0, 0, 0, 0.1);
+  --genie-shadows-elevation: 0px 4px 16px rgba(70, 115, 250, 0.4);
+  --genie-shadows-tooltip: 0px 4px 16px rgba(10, 10, 59, 0.2);
+  --genie-shadows-deep: 8px 12px 20px rgba(51, 53, 72, 0.04),
+    4px 6px 12px rgba(51, 53, 72, 0.02), 4px 4px 8px rgba(51, 53, 72, 0.04);
+  --genie-shadows-shallow: 4px 4px 10px rgba(0, 0, 0, 0.24),
+    2px 2px 4px rgba(0, 0, 0, 0.12), 1px 2px 2px rgba(0, 0, 0, 0.12);
+  --genie-opacity-hover: 0.6;
+  --genie-opacity-pressed: 0.4;
+  --rgw6ez0: var(--genie-colors-accentFailure);
+  --rgw6ez1: var(--genie-colors-accentFailureSoft);
+  --rgw6ez2: var(--genie-colors-accentAction);
+  --rgw6ez3: var(--genie-colors-accentActionSoft);
+  --rgw6ez4: var(--genie-colors-accentSuccess);
+  --rgw6ez5: var(--genie-colors-explicitWhite);
+  --rgw6ez6: var(--genie-colors-gold);
+  --rgw6ez7: #209853;
+  --rgw6ez8: var(--genie-colors-violet);
+  --rgw6ez9: var(--genie-colors-backgroundFloating);
+  --rgw6eza: var(--genie-colors-backgroundInteractive);
+  --rgw6ezb: var(--genie-colors-backgroundModule);
+  --rgw6ezc: var(--genie-colors-backgroundOutline);
+  --rgw6ezd: var(--genie-colors-backgroundSurface);
+  --rgw6eze: var(--genie-colors-backgroundBackdrop);
+  --rgw6ezf: var(--genie-colors-modalBackdrop);
+  --rgw6ezg: var(--genie-colors-searchBackground);
+  --rgw6ezh: var(--genie-colors-searchOutline);
+  --rgw6ezi: var(--genie-colors-stateOverlayHover);
+  --rgw6ezj: var(--genie-colors-textPrimary);
+  --rgw6ezk: var(--genie-colors-textSecondary);
+  --rgw6ezl: var(--genie-colors-textTertiary);
+  --rgw6ezm: var(--genie-colors-dropShadow);
+  --rgw6ezn: linear-gradient(270deg, #d1d5db, #f6f6f6);
+  --rgw6ezo: #24272e;
+  --rgw6ezp: rgba(0, 0, 0, 10%) 0px 4px 12px;
+  --rgw6ezq: #fa2c38;
+  --rgw6ezr: #000;
+  --rgw6ezs: #f5f5f5;
+  --rgw6ezt: #cbcedc;
+  --rgw6ezu: #7f7f7f;
+  --rgw6ezv: transparent;
+  --rgw6ezw: none;
+  --rgw6ezx: #fff;
+  --rgw6ezy: #4c82fb;
+  --rgw6ezz: rgba(173, 188, 255, 0.18823529411764706);
+  --rgw6ez10: #fb118e;
+  --rgw6ez11: #530f10;
+  --rgw6ez12: #fa2c38;
+  --rgw6ez13: #fd766b;
+  --rgw6ez14: #eeb317;
+  --rgw6ez15: #b17900;
+  --rgw6ez16: #5cfe9d;
+  --rgw6ez17: #40b66b;
+  --rgw6ez18: #1a9550;
+  --rgw6ez19: #bdb8fa;
+  --rgw6ez1a: #7a7beb;
+  --rgw6ez1b: #f5f6fc;
+  --rgw6ez1c: #e8ecfb;
+  --rgw6ez1d: #d2d9ee;
+  --rgw6ez1e: #b8c0dc;
+  --rgw6ez1f: #a6afca;
+  --rgw6ez1g: #98a1c0;
+  --rgw6ez1h: #888fab;
+  --rgw6ez1i: #7780a0;
+  --rgw6ez1j: #6b7594;
+  --rgw6ez1k: #5d6785;
+  --rgw6ez1l: #505a78;
+  --rgw6ez1m: #404a67;
+  --rgw6ez1n: #333d59;
+  --rgw6ez1o: #293249;
+  --rgw6ez1p: #1b2236;
+  --rgw6ez1q: #131a2a;
+  --rgw6ez1r: #0e1524;
+  --rgw6ez1s: #0d111c;
+  --rgw6ez1t: #080b11;
+  --rgw6ez1u: hsla(0, 0%, 100%, 0.12);
+  --rgw6ez1v: rgba(153, 161, 189, 0.24);
+  --rgw6ez1w: rgba(153, 161, 189, 0.0784313725490196);
+  --rgw6ez1x: rgba(76, 130, 251, 0.23921568627450981);
+  --rgw6ez1z: 1.5px solid rgba(0, 0, 0, 0.1);
+  --rgw6ez20: none;
+  --s0: 0px;
+  --s4: 4px;
+  --s8: 8px;
+  --s10: 10px;
+  --s12: 12px;
+  --s14: 14px;
+  --s16: 16px;
+  --s20: 20px;
+  --s30: 30px;
+  --s40: 40px;
+  --s100: 100px;
+  --s24: 24px;
+  --s9999: 9999px;
+  --s28: 28px;
+  --s34: 34px;
+  --s48: 48px;
+  --s60: 60px;
+  --s96: 96px;
+  --s1: 1px;
+  --s36: 36px;
+  --s44: 44px;
+  --rgw6ez32: auto;
+  --fw400: 400;
+  --fw500: 500;
+  --fw600: 600;
+  --fw700: 700;
+  --fw900: 900;
+  --td125: 125ms;
+  --td250: 250ms;
+  --td500: 500ms;
+  --font: "Poppins", sans-serif;
+  --bg-header: rgb(25, 27, 31);
+  --primary-text-color: white;
+  --primary-bg-color: #1f2128;
+  --black-07: rgba(255, 255, 255, 0.07);
+  --black: #000;
+  --gray: #6c7284;
+  --header-height: 70px;
+  --blue: #4c82fb;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: var(--s16);
+  color: var(--rgw6ezj);
+}
+
+body {
+  font-family: var(--font);
+  line-height: 1.5;
+}
+
+button,
+input,
+[tabindex] {
+  border: none;
+  outline: none;
+  font-family: var(--font);
+  &::placeholder {
+    font-family: var(--font);
+  }
+}
+
+a[href] {
+  text-decoration: none;
+}
+
+.navbarItem {
+  color: white;
+  font-weight: 500;
+  margin: 0 16px;
+}

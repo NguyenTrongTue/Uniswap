@@ -1,0 +1,45 @@
+$body-bg: #f9fbfd;
+$header-bg: #383838;
+
+$border-color: rgb(22, 24, 35, .2);
+$gray-dark: #1c2d41;
+$blue: #5f76e8;
+$indigo: #6610f2;
+$pink: #e83e8c;
+$red: #ff4f70;
+$yellow: #fdc16a;
+$green: #22ca80;
+$teal: #20c997;
+$white: #fff;
+$gray: #6c757d;
+$primary: #5f76e8;
+$secondary: #6c757d;
+$success: #22ca80;
+$info: #5f76e8;
+$warning: #fdc16a;
+$danger: #ff4f70;
+$light: #e8eaec;
+$dark: #1c2d41;
+$cyan: #01caf1;
+$orange: #fb8c00;
+$purple: #5f76e8;
+
+$text-color-light: #9eabc0;
+$text-color: rgba(22, 24, 35, .8);
+
+$box-shadow: 0 2px 9px 0 rgb(169 184 200 / 20%);
+$background-linearGradient: linear-gradient(
+  to right,
+  #8971ea,
+  #7f72ea,
+  #7574ea,
+  #6a75e9,
+  #5f76e8
+);
+
+$header-height: 80px;
+$border-radius: 4px;
+$sidebar-width-large: 260px;
+$sidebar-width-small: 70px;
+$mobile-width: 600px;
+$tablet-width: 1024px;
