@@ -1,0 +1,82 @@
+@use "../../scss/index.scss" as *;
+
+.wrapper {
+  width: 1200px;
+  margin: auto;
+  margin-top: 24px;
+  min-height: calc(100vh - var(--header-height));
+}
+.watchlist {
+}
+.watchlistTitle {
+  font-size: var(--s16);
+  color: var(--gray-2);
+  font-weight: 500;
+}
+.savedTokens {
+  width: 100%;
+  padding: 16px;
+  background-color: var(--black-a);
+  border-radius: 16px;
+  margin-top: 20px;
+  span {
+    color: var(--gray-2);
+    font-weight: 500;
+  }
+}
+.topMovers {
+  border-radius: 16px;
+  padding: 1rem;
+  background-color: rgb(25, 27, 31);
+  margin-top: var(--s28);
+  .topMoversTitle {
+    color: var(--gray-2);
+    padding-bottom: 10px;
+  }
+}
+
+.cardToken {
+  width: 190px;
+  border-radius: 16px;
+  padding: 16px;
+  background-color: var(--black-a);
+  @include flex(flex-end, flex-start);
+  gap: 8px;
+  background-color: rgb(44, 47, 54);
+}
+.cardLeft {
+  @include imageBorder(32px, 32px);
+}
+.cardCenter {
+  color: white;
+  display: flex;
+  flex-direction: column;
+  margin-left: 4px;
+  flex: 1;
+}
+.name,
+.volumn {
+  font-size: var(--s14);
+  height: 20px;
+}
+
+.volatility {
+  @include flex(flex-end, center);
+
+  .icon {
+    width: 20px;
+    height: 20px;
+  }
+  span {
+    height: 20px;
+  }
+  &.increase {
+    color: var(--green);
+  }
+  &.decrease {
+    color: var(--red);
+  }
+}
+.tokensList {
+  margin: 20px 0;
+}

@@ -5,6 +5,9 @@
   width: 100%;
   height: var(--header-height);
   @include flex(center, space-between);
+  position: sticky;
+  top: 0;
+  z-index: 2;
 }
 .left {
   @include flex(center, space-between);
@@ -52,15 +55,10 @@
     font-weight: 500;
   }
 }
-.account {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
+
+.tooltip {
   background-color: white;
-  @include flex(center, center);
-  margin-left: 16px;
-  span {
-    font-weight: 600;
-    font-size: var(--s20);
-  }
+  color: black;
+  border: 1px solid black;
+  font-weight: 600;
 }

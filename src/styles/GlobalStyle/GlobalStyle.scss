@@ -1,4 +1,5 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800;900&family=Poppins:wght@100;200;300;400;500;600;700&family=Questrial&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800;900&family=Poppins:wght@100;200;300;400;500;600;700&family=Questrial&family=Quicksand&display=swap");
+
 :root {
   --genie-colors-accentFailure: var(--rgw6ez12);
   --genie-colors-accentFailureSoft: rgba(250, 43, 57, 0.12);
@@ -140,11 +141,21 @@
   --gray: #6c7284;
   --header-height: 70px;
   --blue: #4c82fb;
+  --blue-1: #131a2a;
+  --gray-1: rgb(152, 161, 192);
+  --gray-2: rgb(195, 197, 203);
+  --gray-3: #98a1c0;
+  --gray-4: #5c6c75;
+  --black-a: #191b1f;
+  --green: rgb(39, 174, 96);
+  --red: rgb(253, 64, 64);
+  --pink: #fc077d;
 }
 
 * {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
 html {
@@ -172,8 +183,70 @@ a[href] {
   text-decoration: none;
 }
 
+// Scrollbar CSS
+html *::-webkit-scrollbar {
+  border-radius: 0;
+  width: 8px;
+}
+
+html *::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+html *::-webkit-scrollbar-track {
+  border-radius: 0;
+  background-color: rgba(0, 0, 0, 0);
+}
+
 .navbarItem {
-  color: white;
   font-weight: 500;
   margin: 0 16px;
+  position: relative;
+  color: var(--gray-3);
+  padding: 8px;
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.12);
+    border-radius: 12px;
+  }
+
+  &.active {
+    color: white;
+    position: relative;
+    &::before {
+      width: 100%;
+    }
+    &:hover {
+      background-color: transparent;
+    }
+  }
+  &::before {
+    content: "";
+
+    position: absolute;
+    bottom: -5px;
+    height: 3px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    transition: width 0.5s ease;
+    background-color: red;
+  }
+}
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+.tippy-arrow::before {
+  color: white !important;
+}
+.css-md26zr-MuiInputBase-root-MuiOutlinedInput-root {
+  border-radius: 16px !important;
 }

@@ -1,0 +1,30 @@
+@use "../../scss/index.scss" as *;
+
+.wrapper {
+  width: 1200px;
+  margin: auto;
+  margin-top: 24px;
+  min-height: calc(100vh - var(--header-height));
+}
+.watchlist {
+}
+.watchlistTitle {
+  font-size: var(--s16);
+  color: var(--gray-2);
+  font-weight: 500;
+}
+.savedTokens {
+  width: 100%;
+  padding: 16px;
+  background-color: var(--black-a);
+  border-radius: 16px;
+  margin-top: 20px;
+  span {
+    color: var(--gray-2);
+    font-weight: 500;
+  }
+}
+
+.tokensList {
+  margin: 20px 0;
+}

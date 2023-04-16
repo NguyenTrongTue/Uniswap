@@ -1,3 +1,65 @@
+@use "../../scss/index.scss" as *;
+
 .home {
-  height: calc(100vh - var(--header-height));
+  min-height: calc(100vh - var(--header-height));
+  width: 1200px;
+  margin: auto;
+  margin-top: 24px;
+}
+.title {
+  font-weight: 500;
+  color: var(--gray-2);
+  margin: 16px 0;
+}
+.chart {
+  @include flex(center, space-between);
+  gap: 20px;
+}
+.boxChart {
+  background-color: var(--bg-header);
+  width: 100%;
+  padding: 16px;
+  border-radius: 16px;
+}
+.chartTile {
+  font-size: 18px;
+  color: var(--gray-2);
+}
+.chartValue {
+  color: var(--primary-text-color);
+  font-size: 30px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+.infoList {
+  @include flex(center, flex-start);
+  gap: 20px;
+  padding: 16px;
+  border-radius: 16px;
+  background-color: var(--bg-header);
+  margin-top: 16px;
+}
+.info {
+  @include flex(center, center);
+  gap: 2px;
+  .label {
+    color: var(--gray-2);
+    font-weight: 500;
+  }
+  .value {
+    color: var(--primary-text-color);
+  }
+  .change {
+    @include flex(center, center);
+    .icon {
+      width: 20px;
+      height: 20px;
+    }
+    &.increase {
+      color: var(--green);
+    }
+    &.decrease {
+      color: var(--red);
+    }
+  }
 }

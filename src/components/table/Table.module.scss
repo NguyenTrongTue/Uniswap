@@ -1,0 +1,97 @@
+@use "../../scss/index.scss" as *;
+.datatable {
+  padding: 16px;
+  background-color: rgb(25, 27, 31);
+  border-radius: 16px;
+}
+.header {
+  display: grid;
+  gap: 1em;
+  -webkit-box-align: center;
+  align-items: center;
+  grid-template-columns: 30px 3fr repeat(4, 1fr);
+  padding-bottom: 16px;
+  span {
+    color: var(--gray-2);
+    text-align: right;
+  }
+  .idHeader,
+  .nameHeader {
+    text-align: left;
+  }
+  border-bottom: 1px solid var(--black-07);
+}
+
+.content {
+  margin-top: 4;
+}
+.tokenItem {
+  display: grid;
+  gap: 1em;
+  -webkit-box-align: center;
+  align-items: center;
+  grid-template-columns: 30px 3fr repeat(4, 1fr);
+  padding: 16px 0;
+  border-bottom: 1px solid var(--black-07);
+
+  span {
+    color: var(--primary-text-color);
+  }
+
+  .price,
+  .priceChange,
+  .volume,
+  .tvl {
+    text-align: right;
+  }
+}
+.priceChange {
+  @include flex(center, center);
+  .icon {
+    width: 20px;
+    height: 20px;
+  }
+  span {
+    height: 20px;
+  }
+}
+.increase {
+  color: var(--green);
+
+  span {
+    color: var(--green);
+  }
+}
+.decrease {
+  span {
+    color: var(--red);
+  }
+  color: var(--red);
+}
+
+.name {
+  @include flex(center, flex-start);
+  gap: 8px;
+  img {
+    @include imageBorder(30px, 30px);
+  }
+  .symbol {
+    color: var(--gray-2);
+  }
+}
+
+.footer {
+  @include flex(center, center);
+  color: var(--primary-text-color);
+  padding-top: 16px;
+  gap: 16px;
+}
+.pageNumber {
+}
+.footerIcon {
+  cursor: pointer;
+  &.disable {
+    color: var(--gray-2);
+    opacity: 0.4;
+  }
+}

@@ -1,0 +1,81 @@
+@use "../../scss/index.scss" as *;
+.container {
+  width: 100%;
+  height: 100vh;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+  @include flex(center, center);
+  &::before {
+    position: relative;
+    content: "";
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-color: rgba($color: #000000, $alpha: 0.4);
+  }
+}
+.wrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: flex-start;
+
+  flex-direction: column;
+  background-color: white;
+  width: 450px;
+  margin: auto;
+  border-radius: 16px;
+
+  box-shadow: 2px 2px 2px rgba($color: #000000, $alpha: 0.12);
+  padding: 20px;
+}
+.top {
+  width: 100%;
+}
+.brand {
+  @include flex(center, center);
+  width: 100%;
+  margin-bottom: 20px;
+}
+.logo {
+  width: 40px;
+  height: 40px;
+}
+.brandName {
+  font-size: 30px;
+  font-weight: 600;
+  color: var(--pink);
+  margin-left: 16px;
+}
+.title {
+  color: var(--pink);
+  font-size: 24px;
+  font-family: "Questrial", sans-serif;
+}
+.noAccount {
+  font-weight: 600;
+}
+.singup {
+  color: var(--blue);
+  font-weight: 600;
+  cursor: pointer;
+}
+.center {
+  width: 100%;
+}
+
+
+.input {
+  margin: 10px 0 !important;
+  //   outline: none;
+
+  input {
+    font-family: "Questrial", sans-serif;
+    font-size: 16px;
+    padding: 14px;
+  }
+}

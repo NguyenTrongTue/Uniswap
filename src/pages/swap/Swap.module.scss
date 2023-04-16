@@ -1,0 +1,138 @@
+@use "../../scss/index.scss" as *;
+
+.home {
+  @include flex(center, center);
+  height: calc(100vh - var(--header-height));
+}
+.container {
+  @include flex(center, center);
+  flex-direction: column;
+  width: 470px;
+  background-color: rgb(13, 17, 28);
+  border-radius: var(--s16);
+  border: 1px solid rgba(152, 161, 192, 0.24);
+  padding: 8px;
+  color: var(--primary-text-color);
+  z-index: 1;
+  transition: transform 250ms ease 0s;
+}
+.top {
+  @include flex(center, space-between);
+  width: 100%;
+  padding: 8px 12px;
+  color: var(--gray-1);
+  span {
+    font-weight: 500;
+    color: var(--primary-text-color);
+  }
+}
+
+.center {
+  width: 100%;
+}
+.box {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  background-color: var(--blue-1);
+  border-radius: 12px;
+  padding: var(--s16);
+  color: var(--gray-1);
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 500;
+  margin: 6px 0;
+  &:focus-within {
+    box-shadow: 0 0 3px var(--primary-text-color);
+  }
+  min-height: 110px;
+}
+.boxTop {
+  @include flex(center, space-between);
+  position: relative;
+  .tokenQuantity {
+    transition: opacity 0.2s ease-in-out 0s;
+    text-align: left;
+    font-size: 36px;
+    line-height: 44px;
+    font-weight: 500;
+    width: 0;
+    color: white;
+    background-color: transparent;
+    flex: 1 1 auto;
+    -webkit-appearance: none;
+    appearance: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .chooseToken {
+    @include flex(center, center);
+    color: white;
+    cursor: pointer;
+    background-color: rgb(41, 50, 73);
+    border-radius: var(--s16);
+    font-size: 24px;
+    font-weight: 500;
+    width: initial;
+    padding: 4px 8px 4px 4px;
+    gap: 8px;
+    margin-left: 12px;
+  }
+}
+.logo {
+  @include imageBorder(30px, 30px);
+}
+
+.boxBottom {
+  @include flex(center, space-between);
+  margin-top: var(--s16);
+}
+
+.selectToken {
+  @include flex(center, center);
+  background-color: var(--blue);
+  border-radius: var(--s16);
+  color: var(--primary-text-color);
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 6px 8px;
+  margin-left: 12px;
+}
+
+.reverse {
+  position: absolute;
+  @include flex(center, center);
+  bottom: -2px;
+  left: 50%;
+  border-radius: 12px;
+  height: 40px;
+  width: 40px;
+  background-color: rgb(41, 50, 73);
+  border: 4px solid rgb(13, 17, 28);
+  z-index: 2;
+  transform: translate(-50%, 50%);
+  cursor: pointer;
+}
+.bottom {
+  width: 100%;
+}
+.notSelect {
+  background-color: rgb(41, 50, 73);
+  color: rgb(152, 161, 192);
+  cursor: auto;
+  box-shadow: none;
+  border: 1px solid transparent;
+  outline: none;
+  width: 100%;
+  font-size: 20px;
+  font-weight: 500;
+  border-radius: var(--s30);
+  padding: var(--s16);
+  margin: 8px 0px;
+}
+.notSelected {
+}
