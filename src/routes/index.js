@@ -11,6 +11,7 @@ import Home from "~/pages/home/Home";
 import Profile from "~/pages/profile/Profile";
 
 import Protected from "~/layouts/components/protected/Protected";
+import SidebarLayout from "~/layouts/SidebarLayout/SidebarLayout";
 
 const routes = [
   {
@@ -36,7 +37,7 @@ const routes = [
   {
     path: "/profile",
     component: Profile,
-    layout: Default,
+    layout: SidebarLayout,
   },
   {
     path: "/pool",
