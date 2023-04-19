@@ -248,5 +248,48 @@ input[type="number"] {
   color: white !important;
 }
 .css-md26zr-MuiInputBase-root-MuiOutlinedInput-root {
-  border-radius: 16px !important;
+  border-radius: 8px !important;
+}
+.css-1xhypcz-MuiStack-root > .MuiTextField-root {
+  min-width: 100% !important;
+}
+
+.alert {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  &.hide {
+    display: none;
+  }
+}
+.alert.active {
+  @keyframes hide_slide {
+    0% {
+      transform: translateX(-10px);
+    }
+    40% {
+      transform: translateX(0%);
+    }
+    80% {
+      transform: translateX(-10%);
+    }
+    100% {
+      transform: translateX(120%);
+    }
+  }
+  @keyframes fade {
+    0% {
+      transform: translateX(100%);
+    }
+    40% {
+      transform: translateX(-10%);
+    }
+    80% {
+      transform: translateX(0%);
+    }
+    100% {
+      transform: translateX(-10px);
+    }
+  }
+  animation: fade 1s ease forwards;
 }

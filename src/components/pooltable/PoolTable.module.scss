@@ -38,6 +38,10 @@
     color: var(--primary-text-color);
   }
 
+  .symbol {
+    font-weight: 600;
+  }
+
   .price,
   .priceChange,
   .volume,
@@ -74,7 +78,8 @@
   @include flex(center, flex-start);
   gap: 8px;
   img {
-    @include imageBorder(20px, 20px);
+    @include imageBorder(28px, 28px);
+    border: 1px solid white;
   }
 }
 
@@ -84,8 +89,7 @@
   padding-top: 16px;
   gap: 16px;
 }
-.pageNumber {
-}
+
 .footerIcon {
   cursor: pointer;
   &.disable {

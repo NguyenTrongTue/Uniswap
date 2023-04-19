@@ -5,153 +5,48 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
-import { POOLS } from "~/data/DummyData";
+import tokens from "~/data/tokens.json";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import formatPrice from "~/utils/formatPrice";
 
 const cx = classNames.bind(styles);
 
-const rows = [
-  {
-    id: 1,
-    img1: "https://raw.githubusercontent.com/uniswap/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png",
-    img2: "https://raw.githubusercontent.com/uniswap/assets/master/blockchains/ethereum/assets/0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599/logo.png",
-    symbol1: "ETH",
-    symbol2: "USDC",
-    priceChange: "0.51%",
-    colume24h: "$500.29m",
-    colume7d: "$500.29m",
-    tvl: "$1.18B",
-    change: "increase",
-  },
-  {
-    id: 2,
-    img1: "https://raw.githubusercontent.com/uniswap/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png",
-    img2: "https://raw.githubusercontent.com/uniswap/assets/master/blockchains/ethereum/assets/0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599/logo.png",
-    symbol1: "ETH",
-    symbol2: "USDC",
-    priceChange: "0.51%",
-    colume24h: "$500.29m",
-    colume7d: "$500.29m",
-    tvl: "$1.18B",
-    change: "increase",
-  },
-  {
-    id: 3,
-    img1: "https://raw.githubusercontent.com/uniswap/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png",
-    img2: "https://raw.githubusercontent.com/uniswap/assets/master/blockchains/ethereum/assets/0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599/logo.png",
-    symbol2: "USDC",
-    symbol1: "ETH",
-    price: "$1.81k",
-    priceChange: "0.51%",
-    colume24h: "$500.29m",
-    tvl: "$1.18B",
-    change: "increase",
-  },
-  {
-    id: 4,
-    img1: "https://raw.githubusercontent.com/uniswap/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png",
-    img2: "https://raw.githubusercontent.com/uniswap/assets/master/blockchains/ethereum/assets/0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599/logo.png",
-    symbol1: "ETH",
-    symbol2: "USDC",
-    priceChange: "0.51%",
-    colume24h: "$500.29m",
-    colume7d: "$500.29m",
-    tvl: "$1.18B",
-    change: "decrease",
-  },
-  {
-    id: 5,
-    img1: "https://raw.githubusercontent.com/uniswap/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png",
-    img2: "https://raw.githubusercontent.com/uniswap/assets/master/blockchains/ethereum/assets/0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599/logo.png",
-    symbol1: "ETH",
-    symbol2: "USDC",
-    priceChange: "0.51%",
-    colume24h: "$500.29m",
-    colume7d: "$500.29m",
-    tvl: "$1.18B",
-    change: "decrease",
-  },
-  {
-    id: 6,
-    img1: "https://raw.githubusercontent.com/uniswap/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png",
-    img2: "https://raw.githubusercontent.com/uniswap/assets/master/blockchains/ethereum/assets/0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599/logo.png",
-    symbol1: "ETH",
-    symbol2: "USDC",
-    priceChange: "0.51%",
-    colume24h: "$500.29m",
-    colume7d: "$500.29m",
-    tvl: "$1.18B",
-    change: "increase",
-  },
-  {
-    id: 7,
-    img1: "https://raw.githubusercontent.com/uniswap/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png",
-    img2: "https://raw.githubusercontent.com/uniswap/assets/master/blockchains/ethereum/assets/0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599/logo.png",
-    symbol1: "ETH",
-    symbol2: "USDC",
-    priceChange: "0.51%",
-    colume24h: "$500.29m",
-    colume7d: "$500.29m",
-    tvl: "$1.18B",
-    change: "decrease",
-  },
-  {
-    id: 8,
-    img1: "https://raw.githubusercontent.com/uniswap/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png",
-    img2: "https://raw.githubusercontent.com/uniswap/assets/master/blockchains/ethereum/assets/0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599/logo.png",
-
-    symbol1: "ETH",
-    symbol2: "USDC",
-
-    priceChange: "0.51%",
-    colume24h: "$500.29m",
-    tvl: "$1.18B",
-    change: "increase",
-  },
-  {
-    id: 9,
-    img1: "https://raw.githubusercontent.com/uniswap/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png",
-    img2: "https://raw.githubusercontent.com/uniswap/assets/master/blockchains/ethereum/assets/0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599/logo.png",
-    symbol1: "ETH",
-    symbol2: "USDC",
-    priceChange: "0.51%",
-    colume24h: "$500.29m",
-    colume7d: "$500.29m",
-    tvl: "$1.18B",
-    change: "decrease",
-  },
-  {
-    id: 10,
-    img1: "https://raw.githubusercontent.com/uniswap/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png",
-    img2: "https://raw.githubusercontent.com/uniswap/assets/master/blockchains/ethereum/assets/0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599/logo.png",
-    symbol2: "USDC",
-
-    symbol1: "ETH",
-    price: "$1.81k",
-    priceChange: "0.51%",
-    colume24h: "$500.29m",
-    tvl: "$1.18B",
-    change: "increase",
-  },
-  {
-    id: 11,
-    img1: "https://raw.githubusercontent.com/uniswap/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png",
-    img2: "https://raw.githubusercontent.com/uniswap/assets/master/blockchains/ethereum/assets/0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599/logo.png",
-    symbol2: "USDC",
-
-    symbol1: "ETH",
-    price: "$1.81k",
-    priceChange: "0.51%",
-    colume24h: "$500.29m",
-    tvl: "$1.18B",
-    change: "increase",
-  },
-];
-
 export default function PoolTable() {
   const [currentPage, setCurrentPage] = useState(1);
-  const [pages] = useState(Math.floor(rows.length / 10) + (rows.length % 10));
+  const [pools, setPools] = useState([]);
+
+  const [pages, setPages] = useState(0);
+  useEffect(() => {
+    const fetchTokens = async () => {
+      const res = await axios.get("http://localhost:8000/pools/");
+
+      setPools(res.data);
+      const poolList = res.data.map((pool) => {
+        const tokenList = tokens.filter(
+          (token) =>
+            token.tokenname === pool.token0 || token.tokenname === pool.token1
+        );
+        return {
+          poolid: pool.poolid,
+          reserve0: pool.reserve0,
+          tvl: pool.tvl,
+          token0: pool.token0,
+          token1: pool.token1,
+          reserve1: pool.reserve1,
+          token0symbol: tokenList[0].tokensymbol,
+          token1symbol: tokenList[1].tokensymbol,
+          token0image: tokenList[0].tokenimage,
+          token1image: tokenList[1].tokenimage,
+        };
+      });
+      setPools(poolList);
+
+      setPages(Math.floor(poolList.length / 10) + (poolList.length % 10));
+    };
+    fetchTokens();
+  }, []);
 
   const handleBackPage = () => {
     setCurrentPage((prev) => (prev !== 1 ? prev - 1 : prev));
@@ -166,29 +61,33 @@ export default function PoolTable() {
         <span className={cx("idHeader")}>#</span>
         <span className={cx("nameHeader")}>Pool</span>
         <span className={cx("tvlHeader")}>TVL</span>
-        <span className={cx("volumeHeader")}>Volume 24H</span>
-        <span className={cx("volumeHeader")}>Volume 7D</span>
+        <span className={cx("volumeHeader")}>Reserve Token 1</span>
+        <span className={cx("volumeHeader")}>Reserve Token 2</span>
       </div>
       <div className={cx("content")}>
-        {POOLS.slice((currentPage - 1) * 10, 10 * currentPage).map((token) => {
+        {pools.slice((currentPage - 1) * 10, 10 * currentPage).map((token) => {
           return (
             <div className={cx("tokenItem")}>
               <span className={cx("id")}>{token.id}</span>
               <div className={cx("name")}>
                 <div className="listImg">
-                  <img src={token.img1} alt="" />
-                  <img src={token.img2} alt="" />
+                  <img src={token.token0image} alt="" />
+                  <img src={token.token1image} alt="" />
                 </div>
                 <span className={cx("symbol")}>
-                  {token.name1}/{token.name2}
+                  {token.token0symbol.toUpperCase()}/
+                  {token.token1symbol.toUpperCase()}
                 </span>
                 <div
                   className={cx(
                     "priceChange",
-                    parseFloat(token.tvl) > 121 ? "increase" : "decrease"
+                    parseFloat(token.tvl).toFixed(2).toString().slice(-2) > 50
+                      ? "increase"
+                      : "decrease"
                   )}
                 >
-                  {parseFloat(token.tvl) > 121 ? (
+                  {parseFloat(token.tvl).toFixed(2).toString().slice(-2) >
+                  50 ? (
                     <ArrowUpwardIcon className={cx("icon")} />
                   ) : (
                     <ArrowDownwardIcon className={cx("icon")} />
@@ -198,10 +97,12 @@ export default function PoolTable() {
                   </span>
                 </div>
               </div>
-              <span className={cx("price")}>${token.tvl}m</span>
+              <span className={cx("price")}>{formatPrice(token.tvl)}</span>
 
-              <span className={cx("tvl")}>${token.tvl}m</span>
-              <span className={cx("volume")}>${token.tvl}m</span>
+              <span className={cx("tvl")}>{formatPrice(token.reserve0)}</span>
+              <span className={cx("volume")}>
+                {formatPrice(token.reserve1)}
+              </span>
             </div>
           );
         })}

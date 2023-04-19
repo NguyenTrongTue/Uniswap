@@ -28,7 +28,7 @@
   background-color: white;
   width: 450px;
   margin: auto;
-  border-radius: 16px;
+  border-radius: 12px;
 
   box-shadow: 2px 2px 2px rgba($color: #000000, $alpha: 0.12);
   padding: 20px;
@@ -66,8 +66,8 @@
 }
 .center {
   width: 100%;
+  margin-top: 20px;
 }
-
 
 .input {
   margin: 10px 0 !important;
@@ -78,4 +78,9 @@
     font-size: 16px;
     padding: 14px;
   }
+}
+
+.select {
+  width: 100%;
+  color: black;
 }

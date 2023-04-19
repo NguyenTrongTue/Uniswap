@@ -39,15 +39,22 @@
 
 .body {
   width: 1000px;
+  overflow: hidden;
   border-radius: 12px;
   background-color: var(--bg-header);
   min-height: 430px;
   height: 430px;
-  padding: 30px;
+  overflow-y: scroll;
+  position: relative;
 }
 .topBody {
   @include flex(center, space-between);
   color: white;
+  position: sticky;
+  top: 0;
+  padding: 30px;
+
+  background-color: var(--bg-header);
 }
 .assets {
   font-size: 20px;
@@ -71,14 +78,14 @@
   }
   &.active {
     border-radius: 50px;
-
     background-color: #1f75fe;
-    // margin-right: 10px;
   }
 }
 
 .table {
-  margin-top: 30px;
+  overflow-y: scroll;
+  padding: 20px;
+  padding-top: 0;
 }
 .tableHeader {
   display: grid;

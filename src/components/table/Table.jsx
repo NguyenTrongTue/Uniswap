@@ -1,20 +1,30 @@
 import styles from "./Table.module.scss";
 import classNames from "classnames/bind";
-import numeral from "numeral";
 
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
-import { useState } from "react";
-import { TOKENLIST } from "~/data/DummyData";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import formatPrice from "~/utils/formatPrice";
 const cx = classNames.bind(styles);
-
-
 
 export default function DataTable() {
   const [currentPage, setCurrentPage] = useState(1);
-  const [pages] = useState(Math.floor(TOKENLIST.length / 10) + (TOKENLIST.length % 10));
+  const [tokens, setTokens] = useState([]);
+
+  const [pages, setPages] = useState(0);
+
+  useEffect(() => {
+    const fetchTokens = async () => {
+      const res = await axios.get("http://localhost:8000/tokens/");
+
+      setTokens(res.data);
+      setPages(Math.floor(res.data.length / 10) + (res.data.length % 10));
+    };
+    fetchTokens();
+  }, []);
 
   const handleBackPage = () => {
     setCurrentPage((prev) => (prev !== 1 ? prev - 1 : prev));
@@ -23,12 +33,6 @@ export default function DataTable() {
     setCurrentPage((prev) => (prev !== pages ? prev + 1 : prev));
   };
 
-  function formatPrice(price) {
-    let value = numeral(price).value();
-    let unit = numeral(value).format("0.00a").toUpperCase();
-    let formattedPrice = `$${unit}`;
-    return formattedPrice;
-  }
   return (
     <div className={cx("datatable")}>
       <div className={cx("header")}>
@@ -40,15 +44,18 @@ export default function DataTable() {
         <span className={cx("tvlHeader")}>TVL</span>
       </div>
       <div className={cx("content")}>
-        {TOKENLIST.slice((currentPage - 1) * 10, 10 * currentPage).map(
-          (token, index) => {
+        {tokens
+          .slice((currentPage - 1) * 10, 10 * currentPage)
+          .map((token, index) => {
             return (
               <div className={cx("tokenItem")}>
                 <span className={cx("id")}>{index}</span>
                 <div className={cx("name")}>
                   <img src={token.tokenimage} alt="" />
                   <span className={cx("name")}>{token.tokenname}</span>
-                  <span className={cx("symbol")}>({token.tokensymbol.toUpperCase()})</span>
+                  <span className={cx("symbol")}>
+                    ({token.tokensymbol.toUpperCase()})
+                  </span>
                 </div>
                 <span className={cx("price")}>{formatPrice(token.price)}</span>
                 <div
@@ -68,12 +75,11 @@ export default function DataTable() {
                   {formatPrice(token.price * 10000000)}
                 </span>
                 <span className={cx("tvl")}>
-                  {formatPrice(token.price * 66668869)}
+                  {formatPrice(token.marketcap)}
                 </span>
               </div>
             );
-          }
-        )}
+          })}
       </div>
       <div className={cx("footer")}>
         <ArrowBackIcon

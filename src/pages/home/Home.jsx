@@ -6,10 +6,15 @@ import Table from "~/components/table/Table";
 import Linechart from "~/components/lineChart/Linechart";
 import ColumnChart from "~/components/ColumnChart/ColumnChart";
 import Transaction from "~/components/transactions/Transaction";
+import axios from "axios";
 
 import PoolTable from "~/components/pooltable/PoolTable";
+
+
 const cx = classNames.bind(styles);
+
 const Home = () => {
+
   return (
     <div className={cx("home")}>
       <div className={cx("title")}>Uniswap Overview</div>

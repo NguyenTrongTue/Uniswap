@@ -8,6 +8,8 @@ import Register from "~/pages/register/Register";
 import Token from "~/pages/token/Token";
 import Default from "~/layouts/Default/Default";
 import Home from "~/pages/home/Home";
+import Profile from "~/pages/profile/Profile";
+
 import Protected from "~/layouts/components/protected/Protected";
 
 const routes = [
@@ -29,6 +31,11 @@ const routes = [
   {
     path: "/portfolio",
     component: Portfolio,
+    layout: Default,
+  },
+  {
+    path: "/profile",
+    component: Profile,
     layout: Default,
   },
   {

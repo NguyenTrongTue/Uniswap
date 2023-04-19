@@ -1,22 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import Modal from "@mui/material/Modal";
 import CloseIcon from "@mui/icons-material/Close";
-import Button from "@mui/material/Button";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-
-import { TOKENLIST } from "~/data/DummyData";
+import tokens from "~/data/tokens.json";
 import styles from "./Modal.module.scss";
 import classNames from "classnames/bind";
+import { useSelector } from "react-redux";
+import axios from "axios";
 const cx = classNames.bind(styles);
 const currencyOptions = [
-  {
-    flag: require(`../../assets/flag/VN.svg`).default,
-    code: "VND",
-    name: "Việt Nam đồng",
-    symbol: "đ",
-    countryCode: "vn",
-  },
   {
     flag: require(`../../assets/flag/US.svg`).default,
     code: "USD",
@@ -44,6 +37,13 @@ const currencyOptions = [
     name: "Japanese Yen",
     symbol: "¥",
     countryCode: "jp",
+  },
+  {
+    flag: require(`../../assets/flag/VN.svg`).default,
+    code: "VND",
+    name: "Việt Nam đồng",
+    symbol: "đ",
+    countryCode: "vn",
   },
 ];
 function ChildModal({ type, open, onClose, setSelectedCurrency }) {
@@ -94,7 +94,7 @@ function ChildModal({ type, open, onClose, setSelectedCurrency }) {
             </div>
           ) : (
             <div className={cx("currencyList")}>
-              {TOKENLIST.map((token) => {
+              {tokens.map((token) => {
                 return (
                   <div
                     className={cx("currencyItem")}
@@ -104,19 +104,9 @@ function ChildModal({ type, open, onClose, setSelectedCurrency }) {
                       onClose(false);
                     }}
                   >
-                    <img
-                      src={token.tokenimage}
-                      className={cx("logo")}
-                      alt=""
-                      style={{
-                        width: "30px",
-                        heigh: "30px",
-                        borderRadius: "50%",
-                        objectFit: "cover",
-                      }}
-                    />
+                    <img src={token.tokenimage} className={cx("logo")} alt="" />
                     <span>{token.tokenname}</span>
-                    <span>({token.tokensymbol})</span>
+                    <span>({token.tokensymbol.toUpperCase()})</span>
                   </div>
                 );
               })}
@@ -128,13 +118,45 @@ function ChildModal({ type, open, onClose, setSelectedCurrency }) {
   );
 }
 
-export default function NestedModal({ open, setOpen }) {
+export default function NestedModal({ open, setOpen, setBalance }) {
   const [selectedCurrency, setSelectedCurrency] = useState(currencyOptions[0]);
-  const [selectedToken, setSelectedToken] = useState(TOKENLIST[0]);
+  const [selectedToken, setSelectedToken] = useState(tokens[0]);
+  const [token, setToken] = useState("");
+  const [amount, setAmount] = useState("");
 
-  const handleOpen = () => {
-    setOpen(true);
+  const { currentUser } = useSelector((state) => state.user);
+
+  const handleSupply = async () => {
+    try {
+      const res = await axios.post(
+        `http://localhost:8000/user/addbalance/?user=${currentUser.username}&token=${selectedToken.tokenname}&amount=${token}`
+      );
+      setBalance((prev) => {
+        const newToken = {
+          ...selectedToken,
+          username: currentUser.username,
+          amount: +token,
+          tokenname: selectedToken.tokenname,
+        };
+        if (!prev.some((t) => t.tokenname === selectedToken.tokenname)) {
+          console.log("Hello anh em");
+          return [...prev, newToken];
+        } else {
+          const newTokenList = prev.map((token) => {
+            if (token.tokenname === selectedToken.tokenname) {
+              token.amount += newToken.amount;
+            }
+            return token;
+          });
+          return [...newTokenList];
+        }
+      });
+      setOpen(false);
+    } catch (e) {
+      console.error(e);
+    }
   };
+
   const handleClose = () => {
     setOpen(false);
   };
@@ -146,9 +168,35 @@ export default function NestedModal({ open, setOpen }) {
     setOpenSubModal(false);
   };
 
+  useEffect(() => {
+    if (amount) {
+      setToken((parseFloat(amount) / selectedToken.price).toFixed(2));
+    } else {
+      setToken("");
+    }
+  }, [selectedToken]);
+
+  const handleAmount = (e) => {
+    if (e.target.value.trim()) {
+      setAmount(e.target.value);
+      setToken((parseFloat(e.target.value) / selectedToken.price).toFixed(2));
+    } else {
+      setAmount(e.target.value);
+      setToken("");
+    }
+  };
+  const handleToken = (e) => {
+    if (e.target.value) {
+      setToken(e.target.value);
+      setAmount(parseFloat(e.target.value * selectedToken.price).toFixed(2));
+    } else {
+      setToken(e.target.value);
+      setToken("");
+    }
+  };
+
   return (
     <div>
-      <Button onClick={handleOpen}>Open modal</Button>
       <Modal
         open={open}
         onClose={handleClose}
@@ -165,7 +213,7 @@ export default function NestedModal({ open, setOpen }) {
           <div className={cx("nmItem")}>
             <div className={cx("nmLabel")}>I want to spend</div>
             <div className={cx("itemBox")}>
-              <input type="text" />
+              <input type="text" value={amount} onChange={handleAmount} />
               <div
                 className={cx("chooseCurrent")}
                 onClick={() => {
@@ -186,7 +234,7 @@ export default function NestedModal({ open, setOpen }) {
           <div className={cx("nmItem")}>
             <div className={cx("nmLabel")}>I want to spend</div>
             <div className={cx("itemBox")}>
-              <input type="text" />
+              <input type="text" value={token} onChange={handleToken} />
               <div
                 className={cx("chooseCurrent")}
                 onClick={() => {
@@ -206,7 +254,9 @@ export default function NestedModal({ open, setOpen }) {
               </div>
             </div>
           </div>
-          <div className={cx("button")}>Supply</div>
+          <div className={cx("button")} onClick={handleSupply}>
+            Supply
+          </div>
         </div>
       </Modal>
       <ChildModal
