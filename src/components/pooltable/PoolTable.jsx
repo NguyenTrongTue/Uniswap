@@ -8,8 +8,9 @@ import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import tokens from "~/data/tokens.json";
 
 import { useEffect, useState } from "react";
-import axios from "axios";
+
 import formatPrice from "~/utils/formatPrice";
+import requests from "~/api/httpRequests";
 
 const cx = classNames.bind(styles);
 
@@ -20,10 +21,9 @@ export default function PoolTable() {
   const [pages, setPages] = useState(0);
   useEffect(() => {
     const fetchTokens = async () => {
-      const res = await axios.get("http://localhost:8000/pools/");
+      const res = await requests.getPools();
 
-      setPools(res.data);
-      const poolList = res.data.map((pool) => {
+      const poolList = res.map((pool) => {
         const tokenList = tokens.filter(
           (token) =>
             token.tokenname === pool.token0 || token.tokenname === pool.token1

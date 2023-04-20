@@ -8,6 +8,7 @@ import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import formatPrice from "~/utils/formatPrice";
+import requests from "~/api/httpRequests";
 const cx = classNames.bind(styles);
 
 export default function DataTable() {
@@ -18,10 +19,9 @@ export default function DataTable() {
 
   useEffect(() => {
     const fetchTokens = async () => {
-      const res = await axios.get("http://localhost:8000/tokens/");
-
-      setTokens(res.data);
-      setPages(Math.floor(res.data.length / 10) + (res.data.length % 10));
+      const res = await requests.getTokens();
+      setTokens(res);
+      setPages(Math.floor(res.length / 10) + (res.length % 10));
     };
     fetchTokens();
   }, []);

@@ -39,9 +39,9 @@
   }
 }
 .wallet {
-  width: 175px;
   color: var(--primary-text-color);
   @include flex(center, center);
+  margin-right: 20px;
 
   .walletIcon {
     border-radius: 50%;
@@ -51,7 +51,7 @@
   }
   .walletCode {
     margin-left: 8px;
-    font-size: var(--s20);
+    font-size: var(--s16);
     font-weight: 500;
   }
 }

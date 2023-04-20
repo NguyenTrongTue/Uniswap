@@ -1,12 +1,7 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import styles from "./Login.module.scss";
 import classNames from "classnames/bind";
-import {
-  signInWithPopup,
-  GoogleAuthProvider,
-  FacebookAuthProvider,
-} from "firebase/auth";
-import { auth } from "~/store/firebase";
+
 import { useFormik } from "formik";
 import * as yup from "yup";
 import Button from "@mui/material/Button";
@@ -16,7 +11,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { loginSuccess } from "~/redux/userSlice";
 import CircularProgress from "@mui/material/CircularProgress";
-import axios from "axios";
+
+import requests from "~/api/httpRequests";
+import loginMethods from "~/utils/Login";
 
 const cx = classNames.bind(styles);
 
@@ -40,11 +37,11 @@ const Login = () => {
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
-      dispatch(loginSuccess(values));
       setLoading(true);
       try {
         await new Promise((resolve) => setTimeout(resolve, 1000));
-        await axios.get(`http://localhost:8000/user/${values.username}`);
+        const res = await requests.login(values.username);
+        dispatch(loginSuccess({ ...res, loginMethod: "username" }));
 
         setLoading(false);
 
@@ -56,32 +53,16 @@ const Login = () => {
     },
   });
 
-  const handleLoginWithGoogle = () => {
-    const provider = new GoogleAuthProvider();
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        // This gives you a Google Access Token. You can use it to access the Google API.
-        const credential = GoogleAuthProvider.credentialFromResult(result);
-        const token = credential.accessToken;
-        // The signed-in user info.
-        const { displayName, username } = result.user;
-
-        dispatch(loginSuccess({ fullname: displayName, username }));
-        navigate("/");
-      })
-      .catch((error) => {});
+  const handleLoginWithGoogle = async () => {
+    const data = await loginMethods.loginWithGoogle();
+    dispatch(loginSuccess(data));
+    navigate("/");
   };
 
-  const handleLoginWithFacebook = () => {
-    const provider = new FacebookAuthProvider();
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        const { displayName, username } = result.user;
-
-        dispatch(loginSuccess({ fullname: displayName, username }));
-        navigate("/");
-      })
-      .catch((error) => {});
+  const handleLoginWithFacebook = async () => {
+    const data = await loginMethods.loginWithFacebook();
+    dispatch(loginSuccess(data));
+    navigate("/");
   };
 
   return (

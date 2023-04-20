@@ -6,6 +6,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import formatPrice from "~/utils/formatPrice";
 import tokens from "~/data/tokens.json";
+import requests from "~/api/httpRequests";
 const cx = classNames.bind(styles);
 
 const Portfolio = () => {
@@ -17,12 +18,11 @@ const Portfolio = () => {
 
   useEffect(() => {
     const fetchTokens = async () => {
-      const res = await axios.get(
-        `http://localhost:8000/userbalance/${currentUser.username}`
-      );
-      const balaces = res.data.map((balance) => {
+      const res = await requests.getUserbalance(currentUser.username);
+      const balaces = res.map((balance) => {
         const _token = tokens.filter(
-          (token) => token.tokenname === balance.tokenname
+          (token) =>
+            token.tokenname.toLowerCase() === balance.tokenname.toLowerCase()
         );
         return {
           ..._token[0],
@@ -82,12 +82,12 @@ const Portfolio = () => {
             </div>
             {balance.map((token) => {
               return (
-                <div className={cx("tableBody")}>
+                <div className={cx("tableBody")} key={token.tokensymbol}>
                   <div className={cx("tokenContent")}>
                     <img src={token.tokenimage} alt="" />
                     <div className={cx("token")}>
                       <div className={cx("tokenLabel")}>
-                        {token?.tokensymbol.toUpperCase()}
+                        {token?.tokensymbol?.toUpperCase()}
                       </div>
                       <div className={cx("tokenName")}>{token.tokenname}</div>
                     </div>
@@ -97,7 +97,8 @@ const Portfolio = () => {
                   </div>
                   <div className={cx("tokenBalance")}>
                     <span>
-                      {token.amount} {token?.tokensymbol.toUpperCase()}
+                      {token.amount.toFixed(2)}{" "}
+                      {token?.tokensymbol?.toUpperCase()}
                     </span>
                   </div>
                 </div>

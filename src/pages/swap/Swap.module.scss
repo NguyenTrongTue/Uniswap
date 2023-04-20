@@ -120,7 +120,8 @@
 .bottom {
   width: 100%;
 }
-.notSelect {
+.notSelect,
+.selected {
   background-color: rgb(41, 50, 73);
   color: rgb(152, 161, 192);
   cursor: auto;
@@ -129,10 +130,13 @@
   outline: none;
   width: 100%;
   font-size: 20px;
-  font-weight: 500;
-  border-radius: var(--s30);
+  font-weight: 600;
+  border-radius: var(--s16);
   padding: var(--s16);
   margin: 8px 0px;
 }
-.notSelected {
+.selected {
+  background-color: var(--pink);
+  color: white;
+  cursor: pointer;
 }

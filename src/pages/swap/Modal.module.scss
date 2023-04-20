@@ -1,0 +1,99 @@
+@use "../../scss/index.scss" as *;
+
+.modal {
+  border-radius: 10px;
+  border: 1px solid var(--blue);
+  width: 410px;
+  max-height: calc(100vh - 100px);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgb(13, 17, 28);
+
+  display: flex;
+  flex-direction: column;
+}
+.modalTop {
+  padding: 16px;
+
+  border-bottom: 1px solid var(--gray-1);
+}
+.modalHeader {
+  @include flex(center, space-between);
+  color: white;
+}
+.mtLabel {
+  font-weight: 600;
+  font-size: 18px;
+}
+.searchToken {
+  width: 100%;
+  margin-top: 16px;
+  height: 40px;
+  position: relative;
+  input {
+    width: 100%;
+    padding: 16px 16px 16px 40px;
+    height: 40px;
+    white-space: nowrap;
+    border-radius: 8px;
+    border: 1px solid rgba(152, 161, 192, 0.24);
+    font-size: 16px;
+    color: white;
+    background-color: rgb(19, 26, 42);
+  }
+  .searchIcon {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    color: white;
+    transform: translateY(-50%);
+  }
+}
+.modalBody {
+  padding-top: 16px;
+  flex: 1 1 auto;
+  overflow-y: scroll;
+}
+.modalItem {
+  @include flex(center, space-between);
+  padding: 10px 16px;
+  transition: all ease 0.12s;
+  color: white;
+
+  &:hover {
+    cursor: pointer;
+    background-color: rgba($color: #fff, $alpha: 0.15);
+  }
+  &.isChoosed {
+    opacity: 0.6;
+    &:hover {
+      cursor: unset;
+      background-color: transparent;
+    }
+  }
+}
+.modalItemLeft {
+  @include flex(center, center);
+  img {
+    @include imageBorder(30px, 30px);
+    border: 1px solid white;
+  }
+}
+.token {
+  color: white;
+  margin-left: 12px;
+}
+.tokenname {
+  line-height: 15px;
+}
+.tokensymbol {
+  font-size: 12px;
+  color: rgb(93, 103, 133);
+}
+.itemRight {
+}
+.amount {
+  color: white;
+}

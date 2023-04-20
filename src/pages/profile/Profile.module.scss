@@ -1,1 +1,158 @@
 @use "../../scss/index.scss" as *;
+
+.profle {
+  justify-self: flex-start;
+  width: 100%;
+  padding: 0 30px;
+}
+.top {
+  @include flex(center, space-between);
+}
+.user {
+  @include flex(center, center);
+}
+.avatar {
+  border: 2px solid white;
+  border-radius: 50%;
+}
+.username {
+  margin-left: 12px;
+  font-weight: 600;
+  font-size: 18px;
+  color: white;
+  text-shadow: 0 0 2px white;
+}
+.editWrap {
+  width: fit-content;
+  padding: 10px 12px;
+  @include flex(center, center);
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all ease 0.1s;
+  background-color: var(--pink);
+
+  span {
+    font-size: 14px;
+    font-weight: 500;
+  }
+}
+.editIcon {
+  width: 20px;
+  height: 20px;
+}
+.editLabel {
+  font-size: 15px;
+}
+.body {
+  margin-top: 30px;
+}
+.item {
+  @include flex(center, flex-start);
+  padding: 12px 0;
+  border-bottom: 1px solid #8b839b;
+}
+.itemLabel {
+  width: 200px;
+  color: #d6d6e5;
+  font-size: 14px;
+  font-weight: 400;
+}
+.itemValue {
+  color: white;
+  font-size: 16px;
+  font-weight: 500;
+}
+.notupdate {
+  color: var(--pink);
+  font-weight: 300;
+  text-shadow: 0 0 0 transparent;
+}
+
+.linkAccount {
+  @include flex(flex-start, flex-start);
+}
+.link {
+}
+.linkItem {
+  @include flex(center, flex-start);
+  padding: 10px 0;
+}
+.linkItemLeft {
+  @include flex(center, flex-start);
+}
+.linkIcon {
+  margin-left: 4px;
+}
+.linkLabel {
+  margin-left: 8px;
+  color: white;
+  font-weight: 500;
+}
+.linkItemRight {
+  width: fit-content;
+  padding: 8px 12px;
+  @include flex(center, center);
+  color: white;
+  border-radius: 4px;
+  box-shadow: inset 2px 2px 2px #8b839b, inset -2px -2px 2px #8b839b;
+  cursor: pointer;
+  transition: all ease 0.1s;
+  font-size: 14px;
+  font-weight: 500;
+  margin-left: 40px;
+  &:hover {
+    background-color: var(--pink);
+    color: white;
+    box-shadow: unset;
+  }
+}
+
+.passwrap {
+  background-color: var(--pink);
+  width: fit-content;
+  padding: 6px 8px;
+  color: white;
+  border-radius: 4px;
+  margin-top: 12px;
+  cursor: pointer;
+  border-bottom: unset;
+  .passLabel {
+    font-size: 14px;
+  }
+}
+
+// css Modal
+
+.modal {
+  padding: 16px;
+  border-radius: 10px;
+  border: 1px solid var(--blue);
+  width: 410px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+}
+.modalTop {
+  @include flex(center, space-between);
+}
+.mtLabel {
+  font-weight: 600;
+  font-size: 18px;
+}
+.modalBody {
+  margin-top: 20px;
+}
+
+.input {
+  margin: 10px 0 !important;
+
+  //   outline: none;
+  input {
+    font-family: "Questrial", sans-serif;
+    font-size: 16px;
+    padding: 14px;
+  }
+}

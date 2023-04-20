@@ -22,6 +22,9 @@ export const counterSlice = createSlice({
       state.loading = false;
       state.error = true;
     },
+    logout: (state) => {
+      localStorage.clear();
+    },
     addRecentSearch: (state, action) => {
       const token = action.payload;
       if (
@@ -33,11 +36,23 @@ export const counterSlice = createSlice({
         console.log(token);
       }
     },
+    updateUser: (state, action) => {
+      state.currentUser = {
+        ...state.currentUser,
+        ...action.payload,
+      };
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { loginStart, loginSuccess, loginFailure, addRecentSearch } =
-  counterSlice.actions;
+export const {
+  loginStart,
+  loginSuccess,
+  loginFailure,
+  logout,
+  addRecentSearch,
+  updateUser,
+} = counterSlice.actions;
 
 export default counterSlice.reducer;

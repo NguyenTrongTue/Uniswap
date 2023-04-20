@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import styles from "./Register.module.scss";
 import classNames from "classnames/bind";
 import Alert from "@mui/material/Alert";
@@ -39,8 +39,8 @@ function FirstComponent({ birthday, setBirthday }) {
 const Register = () => {
   const navigation = useNavigate();
   const [gender, setGender] = React.useState("");
-  const [loading, setLoading] = useState(false);
   const [birthday, setBirthday] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const validationSchema = yup.object({
     username: yup

@@ -77,14 +77,14 @@ const Header = () => {
             <div className={cx("walletIcon")}>
               <WalletIcon />
             </div>
-            <span className={cx("walletCode")}>0x2D67...197</span>
+            <span className={cx("walletCode")}>{currentUser.username}</span>
           </Link>
         </Tippy>
         <Tippy content="Account" className={cx("tooltip")}>
           <Link to={"/profile"}>
             <Avatar
               style={{ cursor: "pointer" }}
-              {...AvatarUtils.stringAvatar("Nguyen Trong Tue")}
+              {...AvatarUtils.stringAvatar(currentUser.username)}
             />
           </Link>
         </Tippy>

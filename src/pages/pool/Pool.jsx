@@ -3,8 +3,7 @@ import styles from "./Pool.module.scss";
 import classNames from "classnames/bind";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
-import Slider from "react-slick";
+
 import Table from "../../components/pooltable/PoolTable";
 const cx = classNames.bind(styles);
 

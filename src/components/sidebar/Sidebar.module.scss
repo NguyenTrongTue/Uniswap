@@ -3,25 +3,72 @@
 .wrapper {
   width: 280px;
   background-color: #25253c;
+  position: relative;
 }
 .top {
+  height: 100px;
+  border-bottom: 1px solid white;
+  padding: 20px;
+  display: flex;
+  color: white;
+  align-items: center;
 }
-.avatar {
-}
+
 .username {
+  margin-left: 12px;
+  font-weight: 600;
+  text-shadow: 0 0 2px white;
 }
 .center {
+  margin-top: 20px;
 }
 .item {
+  @include flex(center, flex-start);
+  padding: 10px 16px;
+  cursor: pointer;
+  transition: all ease 0.12s;
+  color: white;
+
+  &:hover {
+    background-color: rgba($color: #fff, $alpha: 0.15);
+  }
+  &.active {
+    color: var(--pink);
+  }
 }
 .itemIcon {
+  @include flex(center, flex-start);
+  margin-right: 12px;
 }
 .itemLabel {
+  font-size: 14px;
 }
 
 .bot {
+  position: absolute;
+  bottom: 20px;
+  width: inherit;
+  @include flex(center, center);
 }
 .button {
+  width: fit-content;
+  padding: 10px 12px;
+  @include flex(center, center);
+  color: #8b839b;
+  border-radius: 4px;
+  box-shadow: inset 2px 2px 2px #8b839b, inset -2px -2px 2px #8b839b;
+  cursor: pointer;
+  transition: all ease 0.1s;
+  &:hover {
+    background-color: var(--pink);
+    color: white;
+    box-shadow: unset;
+  }
+  span {
+    font-size: 14px;
+    font-weight: 500;
+  }
 }
 .logoutIcon {
+  @include flex(center, center);
 }

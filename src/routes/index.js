@@ -32,7 +32,7 @@ const routes = [
   {
     path: "/portfolio",
     component: Portfolio,
-    layout: Default,
+    layout: SidebarLayout,
   },
   {
     path: "/profile",
