@@ -7,7 +7,7 @@ import tokens from "~/data/tokens.json";
 import styles from "./Modal.module.scss";
 import classNames from "classnames/bind";
 import { useSelector } from "react-redux";
-import axios from "axios";
+import requests from "~/api/httpRequests";
 const cx = classNames.bind(styles);
 const currencyOptions = [
   {
@@ -128,8 +128,10 @@ export default function NestedModal({ open, setOpen, setBalance }) {
 
   const handleSupply = async () => {
     try {
-      const res = await axios.post(
-        `http://localhost:8000/user/addbalance/?user=${currentUser.username}&token=${selectedToken.tokenname}&amount=${token}`
+      const res = await requests.addBalance(
+        currentUser.username,
+        selectedToken.tokenname,
+        token
       );
       setBalance((prev) => {
         const newToken = {
@@ -139,7 +141,6 @@ export default function NestedModal({ open, setOpen, setBalance }) {
           tokenname: selectedToken.tokenname,
         };
         if (!prev.some((t) => t.tokenname === selectedToken.tokenname)) {
-          console.log("Hello anh em");
           return [...prev, newToken];
         } else {
           const newTokenList = prev.map((token) => {

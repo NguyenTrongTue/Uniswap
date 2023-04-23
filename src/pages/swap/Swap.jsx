@@ -2,10 +2,8 @@ import React, { useEffect, useState } from "react";
 import styles from "./Swap.module.scss";
 import classNames from "classnames/bind";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
-import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import KeyboardArrowDownOutlinedIcon from "@mui/icons-material/KeyboardArrowDownOutlined";
 import tokens from "~/data/tokens.json";
-import axios from "axios";
 import { useSelector } from "react-redux";
 import formatPrice from "~/utils/formatPrice";
 import ModalComponent from "./Modal";
@@ -26,11 +24,9 @@ const Swap = () => {
   useEffect(() => {
     const fetchTokens = async () => {
       try {
-        const res = await axios.get(
-          `http://localhost:8000/userbalance/${currentUser.username}`
-        );
+        const res = await requests.getUserbalance(currentUser.username);
 
-        const balances = res.data.map((balance) => {
+        const balances = res.map((balance) => {
           const _token = tokens.filter(
             (token) => token.tokenname === balance.tokenname
           );
@@ -71,20 +67,28 @@ const Swap = () => {
   }, []);
 
   const handleSwapToken1 = async (e) => {
-    setAmount1(e.target.value);
-    console.log("Hello anh em");
-    try {
+    if (e.target.value.includes("-")) {
+      alert("Please enter a positive value ");
+      setAmount1("");
+    } else {
+      setAmount1(e.target.value);
       if (token1 && token2) {
-        const res = await requests.calSwap(
-          token1.tokenname,
-          token2.tokenname,
-          e.target.value
-        );
+        if (e.target.value) {
+          try {
+            const res = await requests.calSwap(
+              token1.tokenname,
+              token2.tokenname,
+              e.target.value
+            );
 
-        setAmount2(res[0].toFixed(5));
+            setAmount2(res[0].toFixed(5));
+          } catch (err) {
+            console.error(err);
+          }
+        } else {
+          setAmount2("");
+        }
       }
-    } catch (err) {
-      console.error(err);
     }
   };
 
@@ -99,6 +103,25 @@ const Swap = () => {
       alert("Success");
     } catch (err) {
       console.log(err);
+    }
+  };
+
+  const handleReverse = async () => {
+    const _token0 = token1;
+    const _token1 = token2;
+
+    setToken1(_token1);
+    setToken2(_token0);
+    try {
+      const res = await requests.calSwap(
+        token2.tokenname,
+        token1.tokenname,
+        amount1
+      );
+
+      setAmount2(res[0].toFixed(5));
+    } catch (err) {
+      console.error(err);
     }
   };
 
@@ -138,7 +161,7 @@ const Swap = () => {
               <span className={cx("amount")}>{formatPrice(token1?.price)}</span>
               <span className={cx("balance")}>Balance: {token1?.balance}</span>
             </div>
-            <div className={cx("reverse")}>
+            <div className={cx("reverse")} onClick={handleReverse}>
               <ReveserIcon />
             </div>
           </div>

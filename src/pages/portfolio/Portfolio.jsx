@@ -7,14 +7,22 @@ import { useSelector } from "react-redux";
 import formatPrice from "~/utils/formatPrice";
 import tokens from "~/data/tokens.json";
 import requests from "~/api/httpRequests";
+import formatTime from "~/utils/formatDate";
+import formatNumber from "~/utils/formatNumber";
 const cx = classNames.bind(styles);
 
 const Portfolio = () => {
+  const { currentUser } = useSelector((state) => state.user);
+
   const [tab, setTab] = useState("token");
   const [open, setOpen] = useState(false);
   const [balance, setBalance] = useState([]);
+  const [transactions, setTransactions] = useState([]);
 
-  const { currentUser } = useSelector((state) => state.user);
+  const getTransactions = async () => {
+    const res = await requests.getTransaction(currentUser.username);
+    setTransactions(res);
+  };
 
   useEffect(() => {
     const fetchTokens = async () => {
@@ -67,7 +75,10 @@ const Portfolio = () => {
             </div>
             <div
               className={cx("label", tab === "transaction" && "active")}
-              onClick={() => setTab("transaction")}
+              onClick={() => {
+                getTransactions();
+                setTab("transaction");
+              }}
             >
               Transactions
             </div>
@@ -114,23 +125,36 @@ const Portfolio = () => {
               }}
             >
               <div className={cx("tokenLable")}>Content</div>
+              <div className={cx("tokenLable")}>Token Name</div>
+
               <div className={cx("tokenLable")}>Token Amount</div>
-              <div className={cx("tokenLable")}>Token Amount</div>
+
               <div className={cx("tokenLable")}>Time</div>
             </div>
+            {transactions.map((t) => {
+              return (
+                <div
+                  className={cx("tableBody")}
+                  style={{
+                    gridTemplateColumns: "3fr repeat(3, 1fr)",
+                    padding: "10px 8px",
+                  }}
+                >
+                  <div className={cx("transactionContent")}>
+                    {t.amount < 0 ? "Swap " : "Add "}
+                    {t.tokenname}
+                  </div>
+                  <div className={cx("tokenPrice")}>{t.tokenname}</div>
+                  <div className={cx("tokenPrice")}>
+                    {formatNumber(t.amount)}
+                  </div>
 
-            <div
-              className={cx("tableBody")}
-              style={{
-                gridTemplateColumns: "3fr repeat(3, 1fr)",
-                padding: "10px 8px",
-              }}
-            >
-              <div className={cx("transactionContent")}>Swap SHIB for ETH</div>
-              <div className={cx("tokenPrice")}>$1000.80</div>
-              <div className={cx("tokenPrice")}>$1000.80</div>
-              <div className={cx("tokenPrice")}>1h ago</div>
-            </div>
+                  <div className={cx("tokenPrice")}>
+                    {formatTime(t.timestamp)}
+                  </div>
+                </div>
+              );
+            })}
           </div>
         )}
       </div>

@@ -15,9 +15,6 @@ const Pool = () => {
     <div className={cx("wrapper")}>
       <div className={cx("watchlist")}>
         <span className={cx("watchlistTitle")}>Your Watchlist</span>
-        <div className={cx("savedTokens")}>
-          <span>Saved pools will appear here</span>
-        </div>
       </div>
 
       <div className={cx("tokensList")}>

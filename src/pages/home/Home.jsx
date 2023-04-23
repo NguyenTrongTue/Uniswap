@@ -1,20 +1,15 @@
-import React, { useEffect, useState } from "react";
 import styles from "./Home.module.scss";
 import classNames from "classnames/bind";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import Table from "~/components/table/Table";
 import Linechart from "~/components/lineChart/Linechart";
 import ColumnChart from "~/components/ColumnChart/ColumnChart";
-import Transaction from "~/components/transactions/Transaction";
-import axios from "axios";
 
 import PoolTable from "~/components/pooltable/PoolTable";
-
 
 const cx = classNames.bind(styles);
 
 const Home = () => {
-
   return (
     <div className={cx("home")}>
       <div className={cx("title")}>Uniswap Overview</div>
@@ -57,9 +52,6 @@ const Home = () => {
       <Table />
       <div className={cx("title")}>Top Pools</div>
       <PoolTable />
-
-      <div className={cx("title")}> Transactions</div>
-      <Transaction />
     </div>
   );
 };

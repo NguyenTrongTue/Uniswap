@@ -25,6 +25,14 @@ class Requests {
     const url = `user/${username}`;
     return axiosClient.get(url);
   }
+  addBalance(username, tokenname, amount) {
+    const url = `user/addbalance/?user=${username}&token=${tokenname}&amount=${amount}`;
+    return axiosClient.post(url);
+  }
+  getTransaction(username) {
+    const url = `balancelogs/${username}`;
+    return axiosClient.get(url);
+  }
 }
 
 const requests = new Requests();

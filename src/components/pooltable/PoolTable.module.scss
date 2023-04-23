@@ -97,3 +97,29 @@
     opacity: 0.4;
   }
 }
+
+.search {
+  width: 400px;
+  position: relative;
+  input {
+    width: 100%;
+    padding: 12px;
+    padding-left: 60px;
+    border-radius: 12px;
+    border: 1.5px solid rgba(152, 161, 192, 0.24);
+    background-color: rgb(19, 26, 42);
+    color: white;
+    font-size: 16px;
+    &::placeholder {
+      color: #5d6785;
+    }
+  }
+  margin-bottom: 12px;
+}
+.iconSearch {
+  color: white;
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+}

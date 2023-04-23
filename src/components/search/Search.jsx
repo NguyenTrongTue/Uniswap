@@ -1,25 +1,21 @@
 import { useEffect, useRef, useState } from "react";
 import Tippy from "@tippyjs/react/headless";
-
 import styles from "./Search.module.scss";
 import classNames from "classnames/bind";
 import { SearchIcon } from "../Icon";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
-import CallMadeIcon from "@mui/icons-material/CallMade";
-import CallReceivedIcon from "@mui/icons-material/CallReceived";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import { TOKENLIST } from "~/data/DummyData";
+import tokens from "~/data/tokens.json";
 import { useDispatch, useSelector } from "react-redux";
 import { useDebouncedCallback } from "use-debounce";
 import { addRecentSearch } from "~/redux/userSlice";
-import axios from "axios";
 const cx = classNames.bind(styles);
 
 const Search = () => {
   const [visible, setVisible] = useState(false);
   const { recentSearch } = useSelector((state) => state.user);
   const [recents, setRecents] = useState([...recentSearch]);
-  const [popularTokens, setPopularTokens] = useState(TOKENLIST.slice(0, 3));
+  const [popularTokens] = useState(tokens.slice(0, 3));
   const [searchValue, setSearchValue] = useState("");
   const [results, setResults] = useState([]);
 
@@ -27,9 +23,9 @@ const Search = () => {
     // function
     async (value) => {
       const regex = new RegExp(value, "i");
-      const token = TOKENLIST.filter((item) => regex.test(item.tokenname));
+      const token = tokens.filter((item) => regex.test(item.tokenname));
       if (token.length === 0) {
-        const searchWithSymbol = TOKENLIST.filter((item) =>
+        const searchWithSymbol = tokens.filter((item) =>
           regex.test(item.tokensymbol)
         );
         setResults(searchWithSymbol);
@@ -108,10 +104,6 @@ const Search = () => {
                             <div className={cx("price")}>
                               ${token.price.toFixed(2)}
                             </div>
-                            <div className={cx("volatility")}>
-                              <CallMadeIcon className={cx("volatilityIcon")} />
-                              <div className={cx("volatilityLabel")}>0.00%</div>
-                            </div>
                           </div>
                         </div>
                       );
@@ -164,10 +156,6 @@ const Search = () => {
                             <div className={cx("price")}>
                               ${+token?.price.toFixed(2)}
                             </div>
-                            <div className={cx("volatility")}>
-                              <CallMadeIcon className={cx("volatilityIcon")} />
-                              <div className={cx("volatilityLabel")}>0.00%</div>
-                            </div>
                           </div>
                         </div>
                       );
@@ -186,7 +174,7 @@ const Search = () => {
                 </div>
                 <div className={cx("center")}>
                   <div className={cx("resultList")}>
-                    {results.slice(0, 3).map((token) => {
+                    {results.map((token) => {
                       return (
                         <div
                           className={cx("item")}
@@ -219,10 +207,6 @@ const Search = () => {
                           <div className={cx("itemRight")}>
                             <div className={cx("price")}>
                               ${+token?.price.toFixed(2)}
-                            </div>
-                            <div className={cx("volatility")}>
-                              <CallMadeIcon className={cx("volatilityIcon")} />
-                              <div className={cx("volatilityLabel")}>0.00%</div>
                             </div>
                           </div>
                         </div>
