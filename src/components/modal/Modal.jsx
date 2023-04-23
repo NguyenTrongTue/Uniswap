@@ -212,7 +212,7 @@ export default function NestedModal({ open, setOpen, setBalance }) {
             </div>
           </div>
           <div className={cx("nmItem")}>
-            <div className={cx("nmLabel")}>I want to spend</div>
+            {/* <div className={cx("nmLabel")}>I want to spend</div> */}
             <div className={cx("itemBox")}>
               <input type="text" value={amount} onChange={handleAmount} />
               <div
@@ -233,7 +233,7 @@ export default function NestedModal({ open, setOpen, setBalance }) {
             </div>
           </div>
           <div className={cx("nmItem")}>
-            <div className={cx("nmLabel")}>I want to spend</div>
+            {/* <div className={cx("nmLabel")}>I want to spend</div> */}
             <div className={cx("itemBox")}>
               <input type="text" value={token} onChange={handleToken} />
               <div

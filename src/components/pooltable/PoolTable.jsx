@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 
 import formatPrice from "~/utils/formatPrice";
 import requests from "~/api/httpRequests";
+import { Link } from "react-router-dom";
 
 const cx = classNames.bind(styles);
 
@@ -108,7 +109,10 @@ export default function PoolTable() {
             .slice((currentPage - 1) * 10, 10 * currentPage)
             .map((token) => {
               return (
-                <div className={cx("tokenItem")}>
+                <Link
+                  to={`/swap/${token.token0symbol}/${token.token1symbol}`}
+                  className={cx("tokenItem")}
+                >
                   <span className={cx("id")}>{token.id}</span>
                   <div className={cx("name")}>
                     <div className="listImg">
@@ -128,7 +132,7 @@ export default function PoolTable() {
                   <span className={cx("volume")}>
                     {formatPrice(token.reserve1)}
                   </span>
-                </div>
+                </Link>
               );
             })}
         </div>

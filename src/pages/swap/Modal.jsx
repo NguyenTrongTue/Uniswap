@@ -4,12 +4,35 @@ import CloseIcon from "@mui/icons-material/Close";
 import styles from "./Modal.module.scss";
 import classNames from "classnames/bind";
 import SearchIcon from "@mui/icons-material/Search";
+import { Link, useNavigate } from "react-router-dom";
+import formatNumber from "~/utils/formatNumber";
 
 const cx = classNames.bind(styles);
 
-function ModalComponent({ open, setOpen, setToken, balance, token1, token2 }) {
+function ModalComponent({
+  open,
+  setOpen,
+  setToken,
+  balance,
+  token1,
+  token2,
+  type,
+}) {
   const handleClose = () => {
     setOpen(false);
+  };
+  const navigate = useNavigate();
+  const handleTokenSelect = (token) => {
+    console.log(token);
+    setOpen(false);
+    setToken(token);
+    if (type === "token1" && token2) {
+      navigate(`/swap/${token.tokensymbol}/${token2.tokensymbol}`);
+    } else if (type === "token1" && !token2) {
+      navigate(`/swap/${token.tokensymbol}/none`);
+    } else if (type === "token2") {
+      navigate(`/swap/${token1.tokensymbol}/${token.tokensymbol}`);
+    }
   };
 
   return (
@@ -52,8 +75,7 @@ function ModalComponent({ open, setOpen, setToken, balance, token1, token2 }) {
                   )}
                   key={b.tokensymbol}
                   onClick={() => {
-                    setOpen(false);
-                    setToken(b);
+                    handleTokenSelect(b);
                   }}
                 >
                   <div className={cx("modalItemLeft")}>
@@ -66,7 +88,9 @@ function ModalComponent({ open, setOpen, setToken, balance, token1, token2 }) {
                     </div>
                   </div>
                   <div className={cx("itemRight")}>
-                    <span className={cx("amount")}>{b.balance}</span>
+                    <span className={cx("amount")}>
+                      {formatNumber(b.balance)}
+                    </span>
                   </div>
                 </div>
               );

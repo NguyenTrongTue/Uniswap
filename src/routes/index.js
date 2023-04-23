@@ -20,7 +20,12 @@ const routes = [
     layout: Default,
   },
   {
-    path: "/swap",
+    path: "/swap/",
+    component: Swap,
+    layout: Default,
+  },
+  {
+    path: "/swap/:tokensymbol1/:tokensymbol2",
     component: Swap,
     layout: Default,
   },

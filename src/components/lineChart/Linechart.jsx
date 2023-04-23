@@ -12,52 +12,52 @@ import "./Linechart.scss";
 
 const data = [
   {
-    name: "Page A",
-    TVL: 2400,
+    name: "13",
+    TVL: 2100,
   },
   {
-    name: "Page B",
-    TVL: 1398,
+    name: "14",
+    TVL: 2150,
   },
   {
-    name: "Page C",
-    TVL: 9800,
+    name: "15",
+    TVL: 2460,
   },
   {
-    name: "Page A",
-    TVL: 2400,
+    name: "16",
+    TVL: 2780,
   },
   {
-    name: "Page B",
-    TVL: 1398,
+    name: "17",
+    TVL: 3000,
   },
   {
-    name: "Page C",
-    TVL: 9800,
+    name: "18",
+    TVL: 3100,
   },
   {
-    name: "Page D",
+    name: "19",
+    TVL: 3018,
+  },
+  {
+    name: "20",
+    TVL: 3320,
+  },
+  {
+    name: "21",
+    TVL: 3100,
+  },
+  {
+    name: "22",
+    TVL: 3500,
+  },
+  {
+    name: "23",
     TVL: 3908,
   },
   {
-    name: "Page E",
-    TVL: 4800,
-  },
-  {
-    name: "Page F",
-    TVL: 3800,
-  },
-  {
-    name: "Page C",
-    TVL: 9800,
-  },
-  {
-    name: "Page D",
-    TVL: 3908,
-  },
-  {
-    name: "Page E",
-    TVL: 4800,
+    name: "24",
+    TVL: 4122,
   },
 ];
 

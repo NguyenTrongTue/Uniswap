@@ -3,23 +3,35 @@ import styles from "./Swap.module.scss";
 import classNames from "classnames/bind";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import KeyboardArrowDownOutlinedIcon from "@mui/icons-material/KeyboardArrowDownOutlined";
+import Alert from "@mui/material/Alert";
+import CircularProgress from "@mui/material/CircularProgress";
+
 import tokens from "~/data/tokens.json";
 import { useSelector } from "react-redux";
 import formatPrice from "~/utils/formatPrice";
 import ModalComponent from "./Modal";
 import { ReveserIcon } from "~/components/Icon";
 import requests from "~/api/httpRequests";
+import { useNavigate, useParams } from "react-router-dom";
+import formatNumber from "~/utils/formatNumber";
+import Skeletion from "~/components/skeleton/Skeleton";
 
 const cx = classNames.bind(styles);
 const Swap = () => {
   const { currentUser } = useSelector((state) => state.user);
   const [openModal, setOpenModal] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [swapLoading, setSwapLoading] = useState(false);
+
   const [token1, setToken1] = useState(null);
   const [token2, setToken2] = useState(null);
   const [balance, setBalance] = useState([]);
   const [type, setType] = useState("");
   const [amount1, setAmount1] = useState();
   const [amount2, setAmount2] = useState();
+
+  const { tokensymbol1, tokensymbol2 } = useParams();
+  console.log(tokensymbol1, tokensymbol2);
 
   useEffect(() => {
     const fetchTokens = async () => {
@@ -59,11 +71,40 @@ const Swap = () => {
   }, [currentUser]);
 
   useEffect(() => {
-    setToken1(balance[0]);
-  }, [balance]);
+    if (tokensymbol1 === "none") {
+      setToken1(balance[0]);
+    } else {
+      const token = balance.find(
+        (t) => t.tokensymbol.toUpperCase() === tokensymbol1.toUpperCase()
+      );
+
+      setToken1(token);
+    }
+  }, [balance, tokensymbol1]);
+  useEffect(() => {
+    if (tokensymbol2 !== "none") {
+      const token = balance.find(
+        (t) => t.tokensymbol.toUpperCase() === tokensymbol2.toUpperCase()
+      );
+
+      setToken2(token);
+    } else {
+      setToken2(null);
+    }
+  }, [balance, tokensymbol2]);
 
   useEffect(() => {
-    document.title = "Uniswap";
+    document.title = "Bakaswap|Swap";
+    const fetchApi = async () => {
+      setLoading(true);
+      try {
+        await new Promise((resolve) => setTimeout(resolve, 3000));
+        setLoading(false);
+      } catch (err) {
+        setLoading(false);
+      }
+    };
+    fetchApi();
   }, []);
 
   const handleSwapToken1 = async (e) => {
@@ -91,18 +132,38 @@ const Swap = () => {
       }
     }
   };
+  const navigation = useNavigate();
 
   const handleSwap = async () => {
-    try {
-      const res = await requests.swap(
-        token1.tokenname,
-        token2.tokenname,
-        amount1,
-        currentUser.username
-      );
-      alert("Success");
-    } catch (err) {
-      console.log(err);
+    if (amount1 > token1.balance) {
+      alert("Token balance is not enough to make a transaction");
+      setAmount1("");
+      setAmount2("");
+    } else {
+      setSwapLoading(true);
+      try {
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+
+        const res = await requests.swap(
+          token1.tokenname,
+          token2.tokenname,
+          amount1,
+          currentUser.username
+        );
+        setSwapLoading(false);
+        document.querySelector(".alert").classList.remove("hide");
+        document.querySelector(".alert").classList.add("active");
+        setTimeout(() => {
+          document.querySelector(".alert").classList.remove("active");
+          document.querySelector(".alert").classList.add("hide");
+          navigation("/portfolio");
+        }, 1000);
+        setAmount1("");
+        setAmount2("");
+      } catch (err) {
+        console.log(err);
+        setSwapLoading(false);
+      }
     }
   };
 
@@ -127,115 +188,141 @@ const Swap = () => {
 
   return (
     <div className={cx("home")}>
-      <div className={cx("container")}>
-        <div className={cx("top")}>
-          <span>Swap</span>
-          <SettingsOutlinedIcon />
-        </div>
-        <div className={cx("center")}>
-          <div className={cx("box")}>
-            <div className={cx("boxTop")}>
-              <input
-                type="number"
-                placeholder="0"
-                className={cx("tokenQuantity")}
-                value={amount1}
-                onChange={handleSwapToken1}
-              />
-              <div
-                className={cx("chooseToken")}
-                onClick={() => {
-                  setType("token1");
-                  setOpenModal(true);
-                }}
-              >
-                <img className={cx("logo")} src={token1?.tokenimage} alt="" />
-
-                <div className={cx("tokenName")}>
-                  {token1?.tokensymbol.toUpperCase()}
-                </div>
-                <KeyboardArrowDownOutlinedIcon className={cx("arrowIcon")} />
-              </div>
-            </div>
-            <div className={cx("boxBottom")}>
-              <span className={cx("amount")}>{formatPrice(token1?.price)}</span>
-              <span className={cx("balance")}>Balance: {token1?.balance}</span>
-            </div>
-            <div className={cx("reverse")} onClick={handleReverse}>
-              <ReveserIcon />
-            </div>
+      {loading ? (
+        <Skeletion type="swap" />
+      ) : (
+        <div className={cx("container")}>
+          <div className={cx("top")}>
+            <span>Swap</span>
+            <SettingsOutlinedIcon />
           </div>
-          {token2 ? (
+          <div className={cx("center")}>
             <div className={cx("box")}>
               <div className={cx("boxTop")}>
                 <input
                   type="number"
                   placeholder="0"
                   className={cx("tokenQuantity")}
-                  value={amount2}
+                  value={amount1}
+                  onChange={handleSwapToken1}
                 />
                 <div
                   className={cx("chooseToken")}
                   onClick={() => {
-                    setType("token2");
+                    setType("token1");
                     setOpenModal(true);
                   }}
                 >
-                  <img className={cx("logo")} src={token2.tokenimage} alt="" />
+                  <img className={cx("logo")} src={token1?.tokenimage} alt="" />
 
                   <div className={cx("tokenName")}>
-                    {token2.tokensymbol.toUpperCase()}
+                    {token1?.tokensymbol?.toUpperCase()}
                   </div>
                   <KeyboardArrowDownOutlinedIcon className={cx("arrowIcon")} />
                 </div>
               </div>
               <div className={cx("boxBottom")}>
                 <span className={cx("amount")}>
-                  {formatPrice(token2.price)}
+                  {formatPrice(token1?.price)}
                 </span>
-                <span className={cx("balance")}>Balance: {token2.balance}</span>
+                <span className={cx("balance")}>
+                  Balance: {formatNumber(token1?.balance)}
+                </span>
+              </div>
+              <div className={cx("reverse")} onClick={handleReverse}>
+                <ReveserIcon />
               </div>
             </div>
-          ) : (
-            <div className={cx("box")}>
-              <div className={cx("boxTop")}>
-                <input
-                  type="number"
-                  laceholder="0"
-                  className={cx("tokenQuantity")}
-                />
-                <div
-                  className={cx("selectToken")}
-                  onClick={() => {
-                    setType("token2");
-                    setOpenModal(true);
-                  }}
-                >
-                  <span>Select token</span>
-                  <KeyboardArrowDownOutlinedIcon className={cx("arrowIcon")} />
+            {token2 ? (
+              <div className={cx("box")}>
+                <div className={cx("boxTop")}>
+                  <input
+                    type="number"
+                    placeholder="0"
+                    className={cx("tokenQuantity")}
+                    value={amount2}
+                  />
+                  <div
+                    className={cx("chooseToken")}
+                    onClick={() => {
+                      setType("token2");
+                      setOpenModal(true);
+                    }}
+                  >
+                    <img
+                      className={cx("logo")}
+                      src={token2.tokenimage}
+                      alt=""
+                    />
+
+                    <div className={cx("tokenName")}>
+                      {token2.tokensymbol.toUpperCase()}
+                    </div>
+                    <KeyboardArrowDownOutlinedIcon
+                      className={cx("arrowIcon")}
+                    />
+                  </div>
+                </div>
+                <div className={cx("boxBottom")}>
+                  <span className={cx("amount")}>
+                    {formatPrice(token2.price)}
+                  </span>
+                  <span className={cx("balance")}>
+                    Balance: {formatNumber(token2.balance)}
+                  </span>
                 </div>
               </div>
-            </div>
-          )}
+            ) : (
+              <div className={cx("box")}>
+                <div className={cx("boxTop")}>
+                  <input
+                    type="number"
+                    laceholder="0"
+                    className={cx("tokenQuantity")}
+                  />
+                  <div
+                    className={cx("selectToken")}
+                    onClick={() => {
+                      setType("token2");
+                      setOpenModal(true);
+                    }}
+                  >
+                    <span>Select token</span>
+                    <KeyboardArrowDownOutlinedIcon
+                      className={cx("arrowIcon")}
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+          <div className={cx("bottom")}>
+            {amount1 > 0 && amount2 > 0 ? (
+              <button className={cx("selected")} onClick={handleSwap}>
+                {swapLoading ? (
+                  <CircularProgress size={40} color="inherit" />
+                ) : (
+                  "Swap"
+                )}
+              </button>
+            ) : (
+              <button className={cx("notSelect")}>Select a token</button>
+            )}
+          </div>
         </div>
-        <div className={cx("bottom")}>
-          {amount1 > 0 && amount2 > 0 ? (
-            <button className={cx("selected")} onClick={handleSwap}>
-              Swap
-            </button>
-          ) : (
-            <button className={cx("notSelect")}>Select a token</button>
-          )}
-        </div>
-      </div>
+      )}
       <ModalComponent
         open={openModal}
         setOpen={setOpenModal}
         setToken={type === "token1" ? setToken1 : setToken2}
+        type={type}
         balance={balance}
         token1={token1}
         token2={token2}
       />
+      <Alert severity="success" className="alert hide">
+        Account successfully created
+      </Alert>
     </div>
   );
 };

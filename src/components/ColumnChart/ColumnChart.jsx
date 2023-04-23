@@ -8,6 +8,7 @@ import {
   Tooltip,
   Legend,
 } from "recharts";
+import { priceChart } from "~/data/chart";
 const data = [
   {
     name: "Page A",
@@ -64,7 +65,7 @@ export default function ColumnChart() {
     <BarChart
       width={500}
       height={300}
-      data={data}
+      data={priceChart}
       margin={{
         top: 5,
         right: 30,

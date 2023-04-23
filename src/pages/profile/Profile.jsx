@@ -8,7 +8,6 @@ import {
 import { auth } from "~/store/firebase";
 
 import EditIcon from "@mui/icons-material/Edit";
-import LockIcon from "@mui/icons-material/Lock";
 import styles from "./Profile.module.scss";
 import classNames from "classnames/bind";
 import { useDispatch, useSelector } from "react-redux";
@@ -18,56 +17,27 @@ import { GoogleIcon } from "~/components/Icon";
 import FacebookOutlinedIcon from "@mui/icons-material/FacebookOutlined";
 import { loginSuccess } from "~/redux/userSlice";
 import ModalComponent from "./Modal";
+import loginMethods from "~/utils/Login";
 const cx = classNames.bind(styles);
 
 const Profile = () => {
   const { currentUser } = useSelector((state) => state.user);
-  const [link, setLink] = useState(currentUser.loginMethod);
+  const [link] = useState(currentUser.loginMethod);
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
 
-  const handleLoginWithGoogle = () => {
-    const provider = new GoogleAuthProvider();
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        const { displayName, email } = result.user;
+  useEffect(() => {
+    document.title = "Bakaswap|Profile";
+  }, []);
 
-        dispatch(
-          loginSuccess({
-            username: displayName,
-            email,
-            gender: "",
-            birthday: "",
-            phone: "",
-            bio: "",
-            loginMethod: "google",
-          })
-        );
-        setLink("google");
-      })
-      .catch((error) => {});
+  const handleLoginWithGoogle = async () => {
+    const data = await loginMethods.loginWithGoogle();
+    dispatch(loginSuccess(data));
   };
 
-  const handleLoginWithFacebook = () => {
-    const provider = new FacebookAuthProvider();
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        const { displayName, email } = result.user;
-
-        dispatch(
-          loginSuccess({
-            username: displayName,
-            email,
-            gender: "",
-            birthday: "",
-            phone: "",
-            bio: "",
-            loginMethod: "facebook",
-          })
-        );
-        setLink("facebook");
-      })
-      .catch((error) => {});
+  const handleLoginWithFacebook = async () => {
+    const data = await loginMethods.loginWithFacebook();
+    dispatch(loginSuccess(data));
   };
 
   return (
@@ -181,14 +151,6 @@ const Profile = () => {
             </div>
           </div>
         </div>
-        {currentUser.loginMethod === "username" && (
-          <div className={cx("item", "passwrap")}>
-            <div className={cx("passIcon")}>
-              <LockIcon />
-            </div>
-            <div className={cx("passLabel")}>Change password</div>
-          </div>
-        )}
       </div>
       <ModalComponent open={open} setOpen={setOpen} />
     </div>

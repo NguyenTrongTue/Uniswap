@@ -9,10 +9,18 @@ import tokens from "~/data/tokens.json";
 import { useDispatch, useSelector } from "react-redux";
 import { useDebouncedCallback } from "use-debounce";
 import { addRecentSearch } from "~/redux/userSlice";
-const cx = classNames.bind(styles);
+import { Link } from "react-router-dom";
+import Skeletion from "../skeleton/Skeleton";
+import formatPrice from "~/utils/formatPrice";
 
+const cx = classNames.bind(styles);
 const Search = () => {
   const [visible, setVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [searchLoading, setSearchLoading] = useState(false);
+
+  const [firstFocus, setFirstFocus] = useState(true);
+
   const { recentSearch } = useSelector((state) => state.user);
   const [recents, setRecents] = useState([...recentSearch]);
   const [popularTokens] = useState(tokens.slice(0, 3));
@@ -22,6 +30,9 @@ const Search = () => {
   const debounced = useDebouncedCallback(
     // function
     async (value) => {
+      setSearchLoading(true);
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
       const regex = new RegExp(value, "i");
       const token = tokens.filter((item) => regex.test(item.tokenname));
       if (token.length === 0) {
@@ -32,6 +43,7 @@ const Search = () => {
       } else {
         setResults(token);
       }
+      setSearchLoading(false);
     },
     // delay in ms
     500
@@ -63,6 +75,23 @@ const Search = () => {
     };
   }, []);
 
+  const handleFocus = () => {
+    setVisible(true);
+    if (firstFocus) {
+      const fetchApi = async () => {
+        setLoading(true);
+        try {
+          await new Promise((resolve) => setTimeout(resolve, 2000));
+          setLoading(false);
+        } catch (err) {
+          setLoading(false);
+        }
+      };
+      fetchApi();
+      setFirstFocus(false);
+    }
+  };
+
   return (
     <>
       <Tippy
@@ -87,8 +116,17 @@ const Search = () => {
                 <div className={cx("center")}>
                   <div className={cx("resultList")}>
                     {recents.map((token, index) => {
-                      return (
-                        <div className={cx("item")} key={index}>
+                      return loading ? (
+                        <Skeletion type="search" />
+                      ) : (
+                        <Link
+                          to={`/swap/${token.tokensymbol}/none`}
+                          className={cx("item")}
+                          key={index}
+                          onClick={() => {
+                            setVisible(false);
+                          }}
+                        >
                           <div className={cx("itemLeft")}>
                             <img src={token.tokenimage} alt="" />
                             <div className={cx("token ")}>
@@ -105,7 +143,7 @@ const Search = () => {
                               ${token.price.toFixed(2)}
                             </div>
                           </div>
-                        </div>
+                        </Link>
                       );
                     })}
                   </div>
@@ -123,11 +161,15 @@ const Search = () => {
                 <div className={cx("center")}>
                   <div className={cx("resultList")}>
                     {popularTokens.map((token) => {
-                      return (
-                        <div
+                      return loading ? (
+                        <Skeletion type="search" />
+                      ) : (
+                        <Link
+                          to={`/swap/${token.tokensymbol}/none`}
                           className={cx("item")}
                           key={token.tokenname}
                           onClick={() => {
+                            setVisible(false);
                             dispatch(addRecentSearch(token));
                             setRecents((prev) => {
                               var newRecents = prev;
@@ -157,7 +199,7 @@ const Search = () => {
                               ${+token?.price.toFixed(2)}
                             </div>
                           </div>
-                        </div>
+                        </Link>
                       );
                     })}
                   </div>
@@ -167,19 +209,20 @@ const Search = () => {
             {searchValue && results.length > 0 ? (
               <div className={cx("tokenResult")}>
                 <div className={cx("top")}>
-                  {/* <div className={cx("topIcon")}>
-                    <AccessTimeIcon />
-                  </div> */}
                   <div className={cx("topTitle")}>Tokens</div>
                 </div>
                 <div className={cx("center")}>
                   <div className={cx("resultList")}>
                     {results.map((token) => {
-                      return (
-                        <div
+                      return searchLoading ? (
+                        <Skeletion type="search" />
+                      ) : (
+                        <Link
+                          to={`/swap/${token.tokensymbol}/none`}
                           className={cx("item")}
                           key={token.tokenname}
                           onClick={() => {
+                            setVisible(false);
                             dispatch(addRecentSearch(token));
                             setRecents((prev) => {
                               var newRecents = prev;
@@ -206,10 +249,10 @@ const Search = () => {
                           </div>
                           <div className={cx("itemRight")}>
                             <div className={cx("price")}>
-                              ${+token?.price.toFixed(2)}
+                              {formatPrice(token?.price)}
                             </div>
                           </div>
-                        </div>
+                        </Link>
                       );
                     })}
                   </div>
@@ -226,7 +269,7 @@ const Search = () => {
 
           <input
             ref={inputRef}
-            onFocus={() => setVisible(true)}
+            onFocus={handleFocus}
             autoComplete="off"
             type="text"
             id="search"

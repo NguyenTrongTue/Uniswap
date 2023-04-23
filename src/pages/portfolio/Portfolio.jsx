@@ -2,7 +2,6 @@ import React, { useState, useEffect, useMemo } from "react";
 import NestedModal from "~/components/modal/Modal";
 import styles from "./Portfolio.module.scss";
 import classNames from "classnames/bind";
-import axios from "axios";
 import { useSelector } from "react-redux";
 import formatPrice from "~/utils/formatPrice";
 import tokens from "~/data/tokens.json";
@@ -18,11 +17,21 @@ const Portfolio = () => {
   const [open, setOpen] = useState(false);
   const [balance, setBalance] = useState([]);
   const [transactions, setTransactions] = useState([]);
+  const [swaplogs, setSwaplogs] = useState([]);
 
   const getTransactions = async () => {
     const res = await requests.getTransaction(currentUser.username);
     setTransactions(res);
   };
+
+  const getSwaplogs = async () => {
+    const res = await requests.getSwaplog(currentUser.username);
+    setSwaplogs(res);
+  };
+
+  useEffect(() => {
+    document.title = "Bakaswap|Portfolio";
+  }, []);
 
   useEffect(() => {
     const fetchTokens = async () => {
@@ -50,7 +59,6 @@ const Portfolio = () => {
 
     return result;
   }, [balance]);
-
   return (
     <div className={cx("wrapper")}>
       <div className={cx("header")}>
@@ -74,13 +82,22 @@ const Portfolio = () => {
               Tokens
             </div>
             <div
-              className={cx("label", tab === "transaction" && "active")}
+              className={cx("label", tab === "swap" && "active")}
               onClick={() => {
-                getTransactions();
-                setTab("transaction");
+                getSwaplogs();
+                setTab("swap");
               }}
             >
-              Transactions
+              Swap Log
+            </div>
+            <div
+              className={cx("label", tab === "buy" && "active")}
+              onClick={() => {
+                getTransactions();
+                setTab("buy");
+              }}
+            >
+              Buy Log
             </div>
           </div>
         </div>
@@ -116,6 +133,50 @@ const Portfolio = () => {
               );
             })}
           </div>
+        ) : tab === "swap" ? (
+          <div className={cx("table")}>
+            <div
+              className={cx("tableHeader")}
+              style={{
+                gridTemplateColumns: "3fr repeat(4, 1fr)",
+              }}
+            >
+              <div className={cx("tokenLable")}>Content</div>
+              <div className={cx("tokenLable")}>Amount In</div>
+
+              <div className={cx("tokenLable")}>Token Out</div>
+              <div className={cx("tokenLable")}>Volume</div>
+
+              <div className={cx("tokenLable")}>Time</div>
+            </div>
+            {swaplogs.map((t) => {
+              return (
+                <div
+                  className={cx("tableBody")}
+                  style={{
+                    gridTemplateColumns: "3fr repeat(4, 1fr)",
+                    padding: "10px 8px",
+                  }}
+                >
+                  <div className={cx("transactionContent")}>
+                    Swap {t.token0} for {t.token1}
+                  </div>
+                  <div className={cx("tokenPrice")}>
+                    {formatNumber(t.amounttoken0).slice(1)} {t.token0}
+                  </div>
+                  <div className={cx("tokenPrice")}>
+                    {formatNumber(t.amounttoken1)} {t.token1}
+                  </div>
+                  <div className={cx("tokenPrice")}>
+                    {formatNumber(t.volume)}
+                  </div>
+                  <div className={cx("tokenPrice")}>
+                    {formatTime(t.timestamp)}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         ) : (
           <div className={cx("table")}>
             <div
@@ -133,26 +194,28 @@ const Portfolio = () => {
             </div>
             {transactions.map((t) => {
               return (
-                <div
-                  className={cx("tableBody")}
-                  style={{
-                    gridTemplateColumns: "3fr repeat(3, 1fr)",
-                    padding: "10px 8px",
-                  }}
-                >
-                  <div className={cx("transactionContent")}>
-                    {t.amount < 0 ? "Swap " : "Add "}
-                    {t.tokenname}
-                  </div>
-                  <div className={cx("tokenPrice")}>{t.tokenname}</div>
-                  <div className={cx("tokenPrice")}>
-                    {formatNumber(t.amount)}
-                  </div>
+                t.amount > 0 && (
+                  <div
+                    className={cx("tableBody")}
+                    style={{
+                      gridTemplateColumns: "3fr repeat(3, 1fr)",
+                      padding: "10px 8px",
+                    }}
+                  >
+                    <div className={cx("transactionContent")}>
+                      {t.amount < 0 ? "Swap " : "Add "}
+                      {t.tokenname}
+                    </div>
+                    <div className={cx("tokenPrice")}>{t.tokenname}</div>
+                    <div className={cx("tokenPrice")}>
+                      {formatNumber(t.amount)}
+                    </div>
 
-                  <div className={cx("tokenPrice")}>
-                    {formatTime(t.timestamp)}
+                    <div className={cx("tokenPrice")}>
+                      {formatTime(t.timestamp)}
+                    </div>
                   </div>
-                </div>
+                )
               );
             })}
           </div>

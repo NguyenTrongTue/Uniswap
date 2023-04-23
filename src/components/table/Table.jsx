@@ -6,9 +6,9 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import formatPrice from "~/utils/formatPrice";
 import requests from "~/api/httpRequests";
+import { Link } from "react-router-dom";
 const cx = classNames.bind(styles);
 
 export default function DataTable() {
@@ -48,7 +48,11 @@ export default function DataTable() {
           .slice((currentPage - 1) * 10, 10 * currentPage)
           .map((token, index) => {
             return (
-              <div className={cx("tokenItem")}>
+              <Link
+                to={`/swap/${token.tokensymbol}/none`}
+                className={cx("tokenItem")}
+                key={index}
+              >
                 <span className={cx("id")}>{index}</span>
                 <div className={cx("name")}>
                   <img src={token.tokenimage} alt="" />
@@ -77,7 +81,7 @@ export default function DataTable() {
                 <span className={cx("tvl")}>
                   {formatPrice(token.marketcap)}
                 </span>
-              </div>
+              </Link>
             );
           })}
       </div>

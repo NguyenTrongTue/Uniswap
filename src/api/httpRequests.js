@@ -33,6 +33,11 @@ class Requests {
     const url = `balancelogs/${username}`;
     return axiosClient.get(url);
   }
+
+  getSwaplog(username) {
+    const url = `swaplogs/user/${username}`;
+    return axiosClient.get(url);
+  }
 }
 
 const requests = new Requests();

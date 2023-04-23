@@ -31,7 +31,7 @@ const Header = () => {
             Home
           </NavLink>
           <NavLink
-            to={"/swap"}
+            to={"/swap/none/none"}
             className={({ isActive }) =>
               isActive ? "active navbarItem" : "navbarItem"
             }
